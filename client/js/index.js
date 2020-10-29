@@ -1,29 +1,94 @@
 var state = {
-    currentPath: 'root/'
+    currentPath: 'root'
 };
 
 initialize();
 
-function initialize(){
-    var formData = new FormData(); 
-    formData.append('path', state.currentPath);
-    fetch('server/navigation.php', {
-        method: 'POST',
-        body: formData
-    }).then(res => res.text()).then(text => {
-        var resourceList = JSON.parse(text);
-        //greater than 2 to avoid '.' and '..'
-        if(resourceList.length > 2){
-            for(resource of resourceList){
-               QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
+function initialize() {
+    fetchDirList(state.currentPath)
+        .then(resourceList => {
+            if (resourceList.length > 2) {
+                for (resource of resourceList) {
+                    QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
+                }
             }
-        }
-    });
+        });
+    setAside(QS('#root-li'), state.currentPath);
+}
+
+QS('ul.sidebar').addEventListener('click', handleAsideClick);
+QS('ul.sidebar').addEventListener('dblclick', handleAsideDblClick);
+
+function handleAsideDblClick(e) {
+    if (e.target.dataset.type === 'dir') {
+        var path = e.target.dataset.path;
+        setBreadCrumbPath(path);
+    }
 }
 
 
-function createRow(resource){
-    if(resource.type === 'dir'){
+function setBreadCrumbPath(path) {
+    var breadContainer = document.querySelector('#breadcrumbs-container');
+    $('#breadcrumbs-container').empty();
+    path = path.split('/');
+    console.log(path);
+    path.forEach((item, i) => {
+        if (i >= path.length - 1) {
+            var crumb =
+                        `<p>
+                            <span data-path="" class="crumbPath">${item}</span>                              
+                        </p>
+                    `
+        } else {
+            var crumb =
+                `
+                    <p>
+                        <span data-path="" class="crumbPath">${item}</span>                  
+                        <span>&nbsp;>&nbsp;</span>                
+                    </p>
+                `
+        }
+
+        breadContainer.insertAdjacentHTML('beforeend', crumb);
+    })
+}
+
+
+
+
+function handleAsideClick(e) {
+    if (e.target.dataset.type === 'dir') {
+
+        var lastChild = e.target.lastElementChild;
+        if (lastChild.tagName == 'UL') {
+            e.target.removeChild(lastChild);
+            return;
+        };
+
+        let path = e.target.dataset.path;
+        let level = Number(e.target.closest('ul').dataset.level) + 1;
+        setAside(e.target, path, level);
+    }
+}
+
+function setAside(target, path, level = 1) {
+    fetchDirList(path)
+        .then(resourceList => {
+            target.insertAdjacentHTML('beforeend', createResourceUl(level, resourceList));
+        });
+}
+
+function fetchDirList(path) {
+    var formData = new FormData();
+    formData.append('path', path);
+    return fetch('server/navigation.php', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.text()).then(text => JSON.parse(text));
+}
+
+function createRow(resource) {
+    if (resource.type === 'dir') {
         var iconClass = 'fas fa-folder folder-icon-color';
     } else {
         var iconClass = 'far fa-file';
@@ -49,67 +114,31 @@ function createRow(resource){
     `
 }
 
-function QS(selector){
+function createResourceUl(level, resourceList) {
+    var lis = '';
+    resourceList.forEach(resource => lis += createResourceLi(resource));
+    return `<ul data-level="${level}" class="level-${level}">
+                ${lis}
+            </ul>`
+}
+
+
+function createResourceLi(resource) {
+    if (resource.name === '.' || resource.name === "..") return '';
+
+    if (resource.type === 'dir') var icon = icons['folder']
+    else {
+        var ext = resource.name.split('.')[1].slice(0, 3);
+        var icon = icons[ext]
+    };
+
+    return `<li data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
+}
+
+function QS(selector) {
     return document.querySelector(selector);
 }
 
-
-
-
-
-/*-----Breadcrumb Funcitons------*/
-
-var breadcrumbContainer = document.getElementById("breadcrumbs-container")
-
-function createBreadCrumb(name){
-    var crumb = `
-        <p>
-            <span class="crumbPath">${name}</span>
-            <span>&nbsp;>&nbsp;</span>
-        </p>
-    `;
-    breadcrumbContainer.insertAdjacentHTML('beforeend', crumb);
-}
-
-breadcrumbContainer.addEventListener("dblclick", function(e) {
-    var target = e.target;
-    //change display according to breadcrumb path
-    if(target.classList.contains('crumbPath')){
-        alert('hello');
-    }
-});
-
-
-var sidebar = document.querySelector('.sidebar li');
-
-
-sidebar.addEventListener("dblclick", function(e){
-    var crumbPaths = [...document.querySelectorAll('.crumbPath')];
-    
-    var name = e.target.textContent;
-    getPath(e.target);
-    createBreadCrumb(name);
-})
-
-
-function getPath(element){
-    var parent = element.parentNode.parentNode.parentNode;
-    console.log(parent);
-    parent.classList.add('aside-folder');
-    var test = [...document.querySelectorAll('.aside-folder li span')];
-    console.log(test[0]);
-    //console.log(test.textContent.trim());
-    
-
-    // var arrPath = [];
-    // console.log(parentTag);
-
-    // while(parent.children[0].textContent.trim() !== 'root'){
-    //     console.log(parentTag);
-    //     console.log(parent.children[0].textContent.trim());
-    //     element = element.parentNode;
-    //     if(parent.children[0].textContent.trim() !== 'Coverfy'){
-    //         getPath(element);
-    //     }       
-    // }
+function hideMenu(parent, element) {
+    parent.removeChild(element);
 }
