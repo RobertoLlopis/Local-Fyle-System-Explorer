@@ -1,19 +1,26 @@
-var path = 'root/';
+var state = {
+    currentPath: 'root/'
+};
 
-var formData = new FormData(); 
-formData.append('path', path);
-fetch('server/navigation.php', {
-    method: 'POST',
-    body: formData
-}).then(res => res.text()).then(text => {
-    var resourceList = JSON.parse(text);
-    //greater than 2 to avoid '.' and '..'
-    if(resourceList.length > 2){
-        for(resource of resourceList){
-           QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
+initialize();
+
+function initialize(){
+    var formData = new FormData(); 
+    formData.append('path', state.currentPath);
+    fetch('server/navigation.php', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.text()).then(text => {
+        var resourceList = JSON.parse(text);
+        //greater than 2 to avoid '.' and '..'
+        if(resourceList.length > 2){
+            for(resource of resourceList){
+               QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
+            }
         }
-    }
-})
+    });
+}
+
 
 function createRow(resource){
     if(resource.type === 'dir'){
@@ -22,7 +29,7 @@ function createRow(resource){
         var iconClass = 'far fa-file';
     }
     return `
-    <tr>
+    <tr data-path="${resource.path}">
         <td><i class="table-icon ${iconClass}"></i></td>
         <td>${resource.name}</td>
         <td>1.2 MB</td>

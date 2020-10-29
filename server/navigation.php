@@ -10,7 +10,8 @@ if(isset($_POST['path'])){
                 if($file !== '.' || $file !== '..'){
                     array_push($dirResources, [
                         'name' => $file,
-                        'type' => filetype($path . $file) // root/file1 ----- root/folder2
+                        'type' => filetype($path . $file), // root/file1 ----- root/folder2
+                        'path' => $path . $file //root/folder1   --- //root/folder1/fileName
                     ]);
                 }
             }
