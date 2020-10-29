@@ -2,7 +2,7 @@
 
 
 if(isset($_POST['path'])){
-    $path = $_POST['path'];
+    $path = $_POST['path']; // root at beginning and root/Folder1 etc from there
     $dirResources = [];
     if (is_dir($path)) {
         if ($dh = opendir($path)) {
@@ -10,8 +10,8 @@ if(isset($_POST['path'])){
                 if($file !== '.' || $file !== '..'){
                     array_push($dirResources, [
                         'name' => $file,
-                        'type' => filetype($path . $file), // root/file1 ----- root/folder2
-                        'path' => $path . $file //root/folder1   --- //root/folder1/fileName
+                        'type' => filetype($path .'/'.  $file), // root/file1 ----- root/folder2
+                        'path' => $path . '/' .  $file //root/folder 1   --- //root/folder1/fileName
                     ]);
                 }
             }
