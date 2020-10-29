@@ -2,32 +2,94 @@ var state = {
     currentPath: 'root'
 };
 
+$('#properties-display-container').hide();
+
 initAnimation();
 
 initialize();
 
 function initialize() {
-    displayTable(state.currentPath);
-    setAside(QS('#root-li'), state.currentPath);
+    updateResourcesListState(state.currentPath).then((resourceList) => {
+
+        updateMainDisplay(state.currentPath, resourceList);
+
+        QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(1, resourceList));
+    });
 }
 
-QS('ul.sidebar').addEventListener('click', handleAsideClick);
-QS('ul.sidebar').addEventListener('dblclick', handleAsideDblClick);
+$('ul.sidebar').click(function (e) {
+    var $this = $(this);
+    if ($this.hasClass('clicked')) {
+
+        $this.removeClass('clicked');
+
+        handleAsideDblClick(e);
+    } else {
+        $this.addClass('clicked');
+        setTimeout(function () {
+            if ($this.hasClass('clicked')) {
+
+                $this.removeClass('clicked');
+
+                handleAsideClick(e);
+            }
+        }, 500);
+    }
+});
 
 function handleAsideClick(e) {
     if (e.target.dataset.type === 'dir') {
         var path = e.target.dataset.path;
-        setBreadCrumbPath(path);
-        displayTable(path);
-        removeSelected();
-        e.target.classList.add('selected');
-        selected(e.target);
-        state.currentPath = path;
+        updateResourcesListState(path).then((resourceList) => {
+            updateMainDisplay(path, resourceList);
+            updateSelectedStyle(e);
+            state.currentPath = path;
+        });
+
     }
 }
+function handleAsideDblClick(e) {
+    if (e.target.dataset.type === 'dir') {
+        var path = e.target.dataset.path;
+        updateResourcesListState(path)
+            .then((resourceList) => {
+                updateAside(e, resourceList);
+                updateMainDisplay(path, resourceList);
+                updateSelectedStyle(e);
+                state.currentPath = path;
+            })
+    }
+}
+function updateResourcesListState(path) {
+    return fetchDirList(path)
+        .then(resourceList => {
+            state.lastResources = resourceList;
+            return resourceList;
+        });
+}
+function updateAside(e, resourceList) {
+    var lastChild = e.target.lastElementChild;
+    if (lastChild.tagName == 'UL') {
+        e.target.removeChild(lastChild);
+        return;
+    };
 
+    let level = Number(e.target.closest('ul').dataset.level) + 1;
+    e.target.insertAdjacentHTML('beforeend', createResourceUl(level, resourceList));
+}
 
-function selected(element){
+function updateMainDisplay(path, resourceList) {
+    setBreadCrumbPath(path);
+    displayTable(resourceList);
+}
+
+function updateSelectedStyle(e) {
+    removeSelected();
+    e.target.classList.add('selected');
+    selected(e.target);
+}
+
+function selected(element) {
     element.classList.add('selected');
     // var children = [...element.children];
     // children.forEach((child, i) =>{
@@ -35,10 +97,10 @@ function selected(element){
     //         child.style.backgroundColor = 'white';
     //     }
     // })
-    
+
 }
 
-function removeSelected(){
+function removeSelected() {
     var itens = [...document.querySelectorAll('.menu-system-item')];
     itens.forEach(item => {
         item.classList.remove('selected');
@@ -46,67 +108,41 @@ function removeSelected(){
 }
 
 
-function displayTable(path){
+function displayTable(resourceList) {
     $('#tableBody').empty();
-    fetchDirList(path)
-    .then(resourceList => {
-        if (resourceList.length > 2) {
-            for (resource of resourceList) {
-                QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
-            }
+
+    if (resourceList.length > 2) {
+        for (resource of resourceList) {
+            QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
         }
-    });
-}
-
-
-
-
-
-function setBreadCrumbPath(path) {
-    var breadContainer = document.querySelector('#breadcrumbs-container');
-    $('#breadcrumbs-container').empty();
-    path = path.split('/');
-    path.forEach((item, i) => {
-        if (i >= path.length - 1) {
-            var crumb =
-                        `<p>
-                            <span data-path="" class="crumbPath">${item}</span>                              
-                        </p>
-                    `
-        } else {
-            var crumb =
-                `
-                    <p>
-                        <span data-path="" class="crumbPath">${item}</span>                  
-                        <span>&nbsp;>&nbsp;</span>                
-                    </p>
-                `
-        }
-
-        breadContainer.insertAdjacentHTML('beforeend', crumb);
-    })
-}
-
-function handleAsideDblClick(e) {
-    if (e.target.dataset.type === 'dir') {
-
-        var lastChild = e.target.lastElementChild;
-        if (lastChild.tagName == 'UL') {
-            e.target.removeChild(lastChild);
-            return;
-        };
-
-        let path = e.target.dataset.path;
-        let level = Number(e.target.closest('ul').dataset.level) + 1;
-        setAside(e.target, path, level);
     }
 }
 
-function setAside(target, path, level = 1) {
-    fetchDirList(path)
-        .then(resourceList => {
-            target.insertAdjacentHTML('beforeend', createResourceUl(level, resourceList));
-        });
+
+function setBreadCrumbPath(path) {
+    var breadCrumbContainer = $('#breadcrumbs-container');
+    breadCrumbContainer.empty();
+    path = path.split('/');
+    path.forEach((item, i) => {
+        var breadPath = path.join('/');
+        if (i >= path.length - 1) {
+            var crumb = $(
+                `<p>
+                            <span data-path="${breadPath}" class="crumbPath">${item}</span>                              
+                        </p>
+                    `)
+        } else {
+            var crumb = $(
+                `
+                    <p>
+                        <span data-path="${breadPath}" class="crumbPath">${item}</span>                  
+                        <span>&nbsp;>&nbsp;</span>                
+                    </p>
+                `)
+        }
+
+        breadCrumbContainer.append(crumb);
+    })
 }
 
 function fetchDirList(path) {
@@ -174,8 +210,8 @@ function hideMenu(parent, element) {
     parent.removeChild(element);
 }
 
-function initAnimation(){
-   
+function initAnimation() {
+
     QS('#accordionSidebar').classList.add('scale-in-hor-left');
-    setTimeout(()=> {QS('#logo-container').classList.add('final-logo-heigth')}, 500);
+    setTimeout(() => { QS('#logo-container').classList.add('final-logo-heigth') }, 500);
 }

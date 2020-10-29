@@ -27,14 +27,14 @@
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
-            <a id="logo-container"class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <img class="logo" src="client\assets\coverfy-logo-b.png"> 
+            <a id="logo-container" class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
+                <img class="logo" src="client\assets\coverfy-logo-b.png">
             </a>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Pages Collapse Menu -->
             <li id="root-li" data-path="root/" class="nav-item">
-                <i class="fas fa-server"></i> <span>Root</span>                
+                <i class="fas fa-server"></i> <span>Root</span>
             </li>
         </ul>
         <!-- End of Sidebar -->
@@ -62,76 +62,79 @@
             </nav>
             <!-- End of Topbar -->
             <!-- Begin Main Content -->
-            <main class="container-fluid p-0 h-100">
-                <div class="row p-0 h-100 m-0">
-                    <div id="dir-display-container" class="col-8 h-100 p-0">
-                        <div id="breadcrumbs-container" class="d-flex py-4 px-4 ">
-                           
+            <main class="container-fluid d-flex p-0 h-100">
+                <div id="dir-display-container" class="h-100 p-0">
+                    <div class="col-12 p-0">
+                        <div id="breadcrumbs-container" class="d-flex py-4 px-4">
+
                         </div>
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <thead>
-                                            <tr>
-                                                <th>Type</th>
-                                                <th>Name</th>
-                                                <th>Size</th>
-                                                <th>Start date</th>
-                                                <th>Last modification</th>
-                                                <th>Preview</th>
-                                                <th>Properties</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tableBody">
-                                            <tr>
-                                                <td><i class="fas fa-folder table-icon folder-icon-color"></i></td>
-                                                <td>Folder 1</td>
-                                                <td>1.2 MB</td>
-                                                <td>28/10/2020 - 11:00</td>
-                                                <td>29/10/2020 - 17:00</td>
-                                                <td>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn btn-light btn-icon-split">
-                                                        <span class="icon text-gray-600">
-                                                            <i class="fas fa-info-circle"></i>
-                                                        </span>
-                                                        <span class="text">Info</span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><i class="far fa-file table-icon"></i></td>
-                                                <td>File 1</td>
-                                                <td>1.2 MB</td>
-                                                <td>28/10/2020 - 11:00</td>
-                                                <td>29/10/2020 - 17:00</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-info btn-icon-split">
-                                                        <span class="icon text-white-50">
-                                                            <i class="fas fa-play"></i>
-                                                        </span>
-                                                        <span class="text">Preview</span>
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="btn btn-light btn-icon-split">
-                                                        <span class="icon text-gray-600">
-                                                            <i class="fas fa-info-circle"></i>
-                                                        </span>
-                                                        <span class="text">Info</span>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div id="add-new-button-container" class="col-3 p-0">
+                            <button class="btn btn-primary" type="button"><i class="fas fa-plus"></i> Add new</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Name</th>
+                                            <th>Size</th>
+                                            <th>Start date</th>
+                                            <th>Last modification</th>
+                                            <th>Preview</th>
+                                            <th>Properties</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tableBody">
+                                        <tr>
+                                            <td><i class="fas fa-folder table-icon folder-icon-color"></i></td>
+                                            <td>Folder 1</td>
+                                            <td>1.2 MB</td>
+                                            <td>28/10/2020 - 11:00</td>
+                                            <td>29/10/2020 - 17:00</td>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn btn-light btn-icon-split">
+                                                    <span class="icon text-gray-600">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </span>
+                                                    <span class="text">Info</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><i class="far fa-file table-icon"></i></td>
+                                            <td>File 1</td>
+                                            <td>1.2 MB</td>
+                                            <td>28/10/2020 - 11:00</td>
+                                            <td>29/10/2020 - 17:00</td>
+                                            <td>
+                                                <a href="#" class="btn btn-info btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-play"></i>
+                                                    </span>
+                                                    <span class="text">Preview</span>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn btn-light btn-icon-split">
+                                                    <span class="icon text-gray-600">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </span>
+                                                    <span class="text">Info</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                    <div id="properties-display-container" class="col-4 bg-dark h-100 p-0">
-                    </div>
+                </div>
+                <div id="properties-display-container" class="bg-dark h-100 p-0">
                 </div>
             </main>
         </div>
@@ -167,7 +170,7 @@
     <script src="client/js/index.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- Core plugin JavaScript-->
 
     <!-- Custom scripts for all pages
