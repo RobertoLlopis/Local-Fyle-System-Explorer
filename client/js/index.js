@@ -1,5 +1,5 @@
 var state = {
-    currentPath: 'root/'
+    currentPath: 'root'
 };
 
 initialize();
@@ -34,7 +34,7 @@ function handleAsideClick(e) {
             e.target.removeChild(lastChild);
             return;
         };
-        
+
         let path = e.target.dataset.path;
         let level = Number(e.target.closest('ul').dataset.level) + 1;
         setAside(e.target, path, level);
