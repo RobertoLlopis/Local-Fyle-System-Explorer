@@ -115,11 +115,14 @@ function fetchDirList(path) {
 }
 
 function createRow(resource) {
-    if (resource.type === 'dir') {
-        var iconClass = 'dir';
-    } else{
-        var iconClass = resource.ext;
-    }
+    // if (resource.type === 'dir') {
+    //     var iconClass = 'dir';
+    // } else{
+    //     var iconClass = resource.ext;
+    // }
+    var iconClass = '';
+    resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext;
+
     
     if (resource.name === '.' || resource.name === "..") return '';
 
