@@ -25,22 +25,13 @@ function handleAsideClick(e) {
         setBreadCrumbPath(path);
         displayTable(path);
         removeSelected();
-        e.target.classList.add('selected');
-        selected(e.target)
-        console.log
+        selected(e.target);
     }
 }
 
 
 function selected(element){
     element.classList.add('selected');
-    // var children = [...element.children];
-    // children.forEach((child, i) =>{
-    //     if(i > 0){
-    //         child.style.backgroundColor = 'white';
-    //     }
-    // })
-    
 }
 
 function removeSelected(){
@@ -125,15 +116,17 @@ function fetchDirList(path) {
 
 function createRow(resource) {
     if (resource.type === 'dir') {
-        var iconClass = 'fas fa-folder folder-icon-color';
-    } else {
-        var iconClass = 'far fa-file';
+        var iconClass = 'dir';
+    } else{
+        var iconClass = resource.ext;
     }
+    
     if (resource.name === '.' || resource.name === "..") return '';
+
 
     return `
     <tr data-path="${resource.path}">
-        <td><i class="table-icon ${iconClass}"></i></td>
+        <td><i class="table-icon">  ${icons[iconClass]}</i></td>
         <td>${resource.name}</td>
         <td>${resource.size}</td>
         <td>${convertTimeStampToDate(resource.creation)}</td>
@@ -168,7 +161,6 @@ function createResourceLi(resource) {
     else {
         var ext = resource.ext;
         var icon = icons[ext];
-        console.log(icons['pptx']);
     };
 
     return `<li class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
