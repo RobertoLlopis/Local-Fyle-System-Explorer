@@ -7,6 +7,7 @@ if (isset($_POST['path'])) {
         if ($dh = opendir($path)) {
             while (($file = readdir($dh)) !== false) {
                 if ($file !== '.' or $file !== '..') {
+
                     $new_path = $path . '/' .  $file;
                     $type = filetype($new_path);
                     $creation = filectime($new_path);
@@ -33,9 +34,10 @@ if (isset($_POST['path'])) {
             closedir($dh);
         }
     }
-    var_dump(json_encode($dirResources));
+    echo json_encode($dirResources);
     exit;
 }
+
 function get_folder_size($folder)
 {
     $total_size = 0;
