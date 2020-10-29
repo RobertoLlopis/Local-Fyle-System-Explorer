@@ -60,6 +60,7 @@ function displayTable(path){
                 QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
             }
         }
+        console.log(resourceList);
     });
 }
 
@@ -73,19 +74,18 @@ function setBreadCrumbPath(path) {
     path = path.split('/');
     path.forEach((item, i) => {
         if (i >= path.length - 1) {
-            var crumb =
-                        `<p>
-                            <span data-path="" class="crumbPath">${item}</span>                              
-                        </p>
-                    `
+            var crumb = `
+                    <p>
+                        <span data-path="" class="crumbPath">${item}</span>                              
+                    </p>
+                `;
         } else {
-            var crumb =
-                `
+            var crumb =`
                     <p>
                         <span data-path="" class="crumbPath">${item}</span>                  
                         <span>&nbsp;>&nbsp;</span>                
                     </p>
-                `
+                `;
         }
 
         breadContainer.insertAdjacentHTML('beforeend', crumb);
@@ -129,13 +129,15 @@ function createRow(resource) {
     } else {
         var iconClass = 'far fa-file';
     }
+    if (resource.name === '.' || resource.name === "..") return '';
+
     return `
     <tr data-path="${resource.path}">
         <td><i class="table-icon ${iconClass}"></i></td>
         <td>${resource.name}</td>
-        <td>1.2 MB</td>
-        <td>28/10/2020 - 11:00</td>
-        <td>29/10/2020 - 17:00</td>
+        <td>${resource.size}</td>
+        <td>${convertTimeStampToDate(resource.creation)}</td>
+        <td>${convertTimeStampToDate(resource.lastModification)}</td>
         <td>
         </td>
         <td>
@@ -164,8 +166,9 @@ function createResourceLi(resource) {
 
     if (resource.type === 'dir') var icon = icons['folder']
     else {
-        var ext = resource.name.split('.')[1].slice(0, 3);
-        var icon = icons[ext]
+        var ext = resource.ext;
+        var icon = icons[ext];
+        console.log(icons['pptx']);
     };
 
     return `<li class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
@@ -177,4 +180,14 @@ function QS(selector) {
 
 function hideMenu(parent, element) {
     parent.removeChild(element);
+}
+
+
+function convertTimeStampToDate(stamp){
+    var date = new Date(stamp * 1000);
+    var day = date.getDate();
+    var month = (date.getMonth() + 1).toString().slice(-2);
+    var year = date.getFullYear();
+    var formattedTime = day + '/' + month + '/' + year;
+    return formattedTime;
 }
