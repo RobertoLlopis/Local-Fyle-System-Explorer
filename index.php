@@ -228,11 +228,7 @@
                 <div class="row p-0 h-100 m-0">
                     <div id="dir-display-container" class="col-8 h-100 p-0">
                         <div id="breadcrumbs-container" class="d-flex py-4 px-4 ">
-                            <p>
-                                <span class="crumbPath">Root</span>
-                                <span>&nbsp;>&nbsp;</span>
-                            </p>
-
+                           
                         </div>
                         <div class="card">
                             <div class="card-body">
@@ -249,7 +245,7 @@
                                                 <th>Properties</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="tableBody">
                                             <tr>
                                                 <td><i class="fas fa-folder table-icon folder-icon-color"></i></td>
                                                 <td>Folder 1</td>
@@ -327,14 +323,14 @@
             </div>
         </div>
     </div>
+    <script src="client/vendor/jquery/jquery.min.js"></script>
+    <script src="client/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="client/js/icons.js"></script>
     <script src="client/js/index.js"></script>
     <!-- Bootstrap core JavaScript-->
-    <script src="client/vendor/jquery/jquery.min.js"></script>
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+    
     <!-- Core plugin JavaScript-->
-    <script src="client/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages
     <script src="js/template.js"></script>

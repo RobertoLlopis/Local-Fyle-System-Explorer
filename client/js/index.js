@@ -5,33 +5,65 @@ var state = {
 initialize();
 
 function initialize() {
-    fetchDirList(state.currentPath)
-        .then(resourceList => {
-            if (resourceList.length > 2) {
-                for (resource of resourceList) {
-                    QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
-                }
-            }
-        });
+    displayTable(state.currentPath);
     setAside(QS('#root-li'), state.currentPath);
 }
 
 QS('ul.sidebar').addEventListener('click', handleAsideClick);
 QS('ul.sidebar').addEventListener('dblclick', handleAsideDblClick);
 
-function handleAsideDblClick(e) {
+function handleAsideClick(e) {
     if (e.target.dataset.type === 'dir') {
         var path = e.target.dataset.path;
         setBreadCrumbPath(path);
+        displayTable(path);
+        removeSelected();
+        e.target.classList.add('selected');
+        selected(e.target)
+        console.log
     }
 }
+
+
+function selected(element){
+    element.classList.add('selected');
+    // var children = [...element.children];
+    // children.forEach((child, i) =>{
+    //     if(i > 0){
+    //         child.style.backgroundColor = 'white';
+    //     }
+    // })
+    
+}
+
+function removeSelected(){
+    var itens = [...document.querySelectorAll('.menu-system-item')];
+    itens.forEach(item => {
+        item.classList.remove('selected');
+    })
+}
+
+
+function displayTable(path){
+    $('#tableBody').empty();
+    fetchDirList(path)
+    .then(resourceList => {
+        if (resourceList.length > 2) {
+            for (resource of resourceList) {
+                QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
+            }
+        }
+    });
+}
+
+
+
 
 
 function setBreadCrumbPath(path) {
     var breadContainer = document.querySelector('#breadcrumbs-container');
     $('#breadcrumbs-container').empty();
     path = path.split('/');
-    console.log(path);
     path.forEach((item, i) => {
         if (i >= path.length - 1) {
             var crumb =
@@ -53,10 +85,7 @@ function setBreadCrumbPath(path) {
     })
 }
 
-
-
-
-function handleAsideClick(e) {
+function handleAsideDblClick(e) {
     if (e.target.dataset.type === 'dir') {
 
         var lastChild = e.target.lastElementChild;
@@ -132,7 +161,7 @@ function createResourceLi(resource) {
         var icon = icons[ext]
     };
 
-    return `<li data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
+    return `<li class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
 }
 
 function QS(selector) {

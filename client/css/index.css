@@ -42,8 +42,20 @@
     
 }
 
+.selected{
+    position: relative;
+}
 
-
+.selected::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: lightgray;
+    height: 28px;
+    width: 100%;
+    z-index: -1;
+}
 
 
 
