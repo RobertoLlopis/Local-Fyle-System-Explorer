@@ -2,6 +2,13 @@ var state = {
     currentPath: 'root'
 };
 
+var formData = new FormData();
+    formData.append('path', state.currentPath);
+fetch('server/navigation.php', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.text()).then(text => console.log(text));
+
 initialize();
 
 function initialize() {
