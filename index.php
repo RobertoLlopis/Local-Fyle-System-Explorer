@@ -29,7 +29,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <img class="padding-1" src="https://startupxplore.com/uploads/ff8080815903107c0159167cbc3e0166-large.png">
+                <img class="padding-1 logo" src="https://startupxplore.com/uploads/ff8080815903107c0159167cbc3e0166-large.png">
                 <div class="sidebar-brand-text mx-3 coverfy-text">Coverfy</div>
             </a>
 
@@ -42,8 +42,60 @@
                     <span>Root</span>
                 </a>
                 <ul>
-                    <li data-path="first-folder"><i class="fas fa-folder"></i>First Folder</li>
-                    <li><i class="fas fa-folder-open"></i>Second folder</li>
+                    <li data-path="first-folder">
+                        <i class="fas fa-folder"></i>
+                        <span>
+                            First Folder
+                        </span>
+
+                    </li>
+                    <li>
+                        <i class="fas fa-folder-open"></i>
+                        <span>
+                            Second Folder
+                        </span>
+                        <ul>
+                            <li>
+                                <i class="fas fa-folder-open"></i>
+                                <span>
+                                    Third Folder
+                                </span>
+                                <ul>
+                                    <li>
+                                    
+                                        <i class="fas fa-folder-open"></i>
+                                        <span>
+                                            Fourth Folder
+                                        </span>
+                                                                
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-folder-open"></i>
+                                                <span>
+                                                    Second Folder
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-folder-open"></i>
+                                        <span>
+                                            Fifth Folder
+                                        </span>
+                                        <ul>
+                                            <li>
+                                                <i class="fas fa-folder-open"></i>
+                                                <span>
+                                                    Sixth Folder
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+
                 </ul>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
@@ -245,15 +297,10 @@
                     <div id="dir-display-container" class="col-8 h-100 p-0">
                         <div id="breadcrumbs-container" class="d-flex py-4 px-4 ">
                             <p>
-                                <span>Folder one</span>
-                                <span>&nbsp;>&nbsp;</span>
-                            </p>
-                            <p>
-                                <span>Folder two</span>
+                                <span class="crumbPath">Root</span>
                                 <span>&nbsp;>&nbsp;</span>
                             </p>
 
-                            <div></div>
                         </div>
                         <div class="card">
                             <div class="card-body">

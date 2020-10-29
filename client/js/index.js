@@ -52,3 +52,64 @@ function createRow(resource){
 function QS(selector){
     return document.querySelector(selector);
 }
+
+
+
+
+
+/*-----Breadcrumb Funcitons------*/
+
+var breadcrumbContainer = document.getElementById("breadcrumbs-container")
+
+function createBreadCrumb(name){
+    var crumb = `
+        <p>
+            <span class="crumbPath">${name}</span>
+            <span>&nbsp;>&nbsp;</span>
+        </p>
+    `;
+    breadcrumbContainer.insertAdjacentHTML('beforeend', crumb);
+}
+
+breadcrumbContainer.addEventListener("dblclick", function(e) {
+    var target = e.target;
+    //change display according to breadcrumb path
+    if(target.classList.contains('crumbPath')){
+        alert('hello');
+    }
+});
+
+
+var sidebar = document.querySelector('.sidebar li');
+
+
+sidebar.addEventListener("dblclick", function(e){
+    var crumbPaths = [...document.querySelectorAll('.crumbPath')];
+    
+    var name = e.target.textContent;
+    getPath(e.target);
+    createBreadCrumb(name);
+})
+
+
+function getPath(element){
+    var parent = element.parentNode.parentNode.parentNode;
+    console.log(parent);
+    parent.classList.add('aside-folder');
+    var test = [...document.querySelectorAll('.aside-folder li span')];
+    console.log(test[0]);
+    //console.log(test.textContent.trim());
+    
+
+    // var arrPath = [];
+    // console.log(parentTag);
+
+    // while(parent.children[0].textContent.trim() !== 'root'){
+    //     console.log(parentTag);
+    //     console.log(parent.children[0].textContent.trim());
+    //     element = element.parentNode;
+    //     if(parent.children[0].textContent.trim() !== 'Coverfy'){
+    //         getPath(element);
+    //     }       
+    // }
+}
