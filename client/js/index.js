@@ -2,12 +2,7 @@ var state = {
     currentPath: 'root'
 };
 
-var formData = new FormData();
-    formData.append('path', state.currentPath);
-fetch('server/navigation.php', {
-        method: 'POST',
-        body: formData
-    }).then(res => res.text()).then(text => console.log(text));
+initAnimation();
 
 initialize();
 
@@ -26,8 +21,8 @@ function handleAsideClick(e) {
         displayTable(path);
         removeSelected();
         e.target.classList.add('selected');
-        selected(e.target)
-        console.log
+        selected(e.target);
+        state.currentPath = path;
     }
 }
 
@@ -177,4 +172,10 @@ function QS(selector) {
 
 function hideMenu(parent, element) {
     parent.removeChild(element);
+}
+
+function initAnimation(){
+   
+    QS('#accordionSidebar').classList.add('scale-in-hor-left');
+    setTimeout(()=> {QS('#logo-container').classList.add('final-logo-heigth')}, 500);
 }

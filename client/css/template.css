@@ -10142,7 +10142,7 @@ a:focus {
 }
 
 .topbar {
-  height: 4.375rem;
+  height: 5.375rem;
 }
 
 .topbar #sidebarToggleTop {
@@ -10419,15 +10419,17 @@ a:focus {
 }
 
 .sidebar .sidebar-brand {
-  height: 4.375rem;
+  height: 1000px;
   text-decoration: none;
   font-size: 1rem;
   font-weight: 800;
-  padding: 1.5rem 1rem;
+  padding: 0rem 1rem;
+  background-color: #EB665B;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.05rem;
   z-index: 1;
+  transition: height 0.5s ease-in-out;
 }
 
 .sidebar .sidebar-brand .sidebar-brand-icon i {
