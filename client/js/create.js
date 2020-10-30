@@ -6,7 +6,6 @@ $('#add-new-button-container').on('click', (e) =>{
         $(target).hasClass('folder-create') ? type = 'Folder' : type = 'File';
         displayFolderInput(path, type);
     }
-
 })
 
 
@@ -33,7 +32,6 @@ function displayFoldernTable(folder){
     QS('tbody').insertAdjacentHTML('beforeend', createRow(folder));
 }
 
-
 function createFolder(form){
     var formData = new FormData(form);
     //formData.append('name', name);
@@ -42,7 +40,6 @@ function createFolder(form){
         body: formData
     }).then(res => res.json());
 }
-
 
 function displayFolderInput(path, type){
 
@@ -78,7 +75,6 @@ function displayFolderInput(path, type){
 `
     $('#tableBody').append(row);
 }
-
 
 function deleteRow(element){
     var toDelete = $(element).parent().parent().parent().parent();
