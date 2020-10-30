@@ -41,6 +41,7 @@ $('ul.sidebar').click(function (e) {
     }
 });
 
+
 function handleAsideClick(e) {
     if (e.target.dataset.type === 'dir') {
 
@@ -111,13 +112,10 @@ function displayTable(resourceList) {
 
     $('#tableBody').empty();
 
-    if (resourceList.length > 2) {
-        for (resource of resourceList) {
-            QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
-        }
+    for (resource of resourceList) {
+        QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
     }
 }
-
 
 function setBreadCrumbPath(path) {
 
@@ -161,7 +159,7 @@ function createRow(resource) {
     resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext;
 
     
-    //if (resource.name === '.' || resource.name === "..") return '';
+    if (resource.name === '.' || resource.name === "..") return '';
     return `
     <tr data-path="${resource.path}">
         <td><i class="table-icon">  ${icons[iconClass]}</i></td>
