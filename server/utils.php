@@ -1,6 +1,7 @@
 <?php
 
 function gatherResourceData($resource_name, $path){
+    
     $new_path = $path . '/' .  $resource_name;
     $type = filetype($new_path);
     $creation = filectime($new_path);
@@ -13,6 +14,7 @@ function gatherResourceData($resource_name, $path){
         $ext = explode('.', $resource_name)[1];
         $size = format_folder_size(filesize($new_path));
     }
+
     return [
         'name' => $resource_name,
         'type' => $type, // root/file1 ----- root/folder2
