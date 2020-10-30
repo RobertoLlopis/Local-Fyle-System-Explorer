@@ -19,7 +19,7 @@ if (isset($_POST['path'])) {
                         $size = get_folder_size($new_path);
                     } else {
                         $ext = explode('.', $resourceName)[1];
-                        $size = filesize($new_path);
+                        $size = format_folder_size(filesize($new_path));
                     }
                     array_push($dirResources, [
                         'name' => $resourceName,
