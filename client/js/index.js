@@ -114,7 +114,7 @@ function fetchDirList(path) {
     }).then(res => res.text()).then(text => JSON.parse(text));
 }
 
-function createRow(resource) {
+function createRow(resource) {    
     var iconClass = '';
     resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext;
 
