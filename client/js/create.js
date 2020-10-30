@@ -49,31 +49,21 @@ function displayFolderInput(path, type){
     var icon = icons[type.toLowerCase()]
     var row = `
     <tr data-path="root/Folder1/Second-level/">
-        <td><i class="table-icon"> ${icon}</i></td>
-        <td>
-        <form id="createFolder" class="d-flex flex-column"> 
+    <td>
+    <div class="d-flex align-items-center justify-content-around pt-2 pb-1">
+        <i class="table-icon"> ${icon}</i>
+        
+        <form id="createFolder" class="d-flex flex-column form-container"> 
             <input type="text" name="folderName" placeholder="name" class="creatingFolder">
             <input type="text" style="display:none;" name="path" value="${path}">
             <input type="text" style="display:none;" name="type" value="${type}">
-            <div class="d-flex mt-2">
+            <div class="d-flex justify-content-between mt-2">
                 <button class="btn btn-primary mr-2 btn-create-folder" type="submit" form="createFolder">Create ${type}</button>
                 <button class="btn btn-warning btn-cancel">Cancel</button>
             </div>
         </form>
-        </td>
-        <td>0 bytes</td>
-        <td></td>
-        <td></td>
-        <td>
-        </td>
-        <td>
-            <a href="#" class="btn btn-light btn-icon-split">
-                <span class="icon text-gray-600">
-                    <i class="fas fa-info-circle"></i>
-                </span>
-                <span class="text">Info</span>
-            </a>
-        </td>
+    </div>
+    </td>
     </tr>
 `
     $('#tableBody').append(row);
