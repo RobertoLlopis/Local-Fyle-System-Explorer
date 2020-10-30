@@ -7,13 +7,13 @@ if (isset($_POST['pattern'])) {
     $final_resources_array = [];
 
     foreach ($allResources as $resource) {
-        if (preg_match('/' . $_POST['pattern'] . '/', $resource)) {
+        if (preg_match('/' . $_POST['pattern'] . '/i', $resource)) { //root/Folder1 --- //root/Folder1/img.img
             // Valid match
             $resource_parts = explode('/', $resource);
             $last_part = array_pop($resource_parts);
             $path_without_last = implode('/', $resource_parts);
 
-            if (preg_match('/' . $_POST['pattern'] . '/', $last_part)) {
+            if (preg_match('/' . $_POST['pattern'] . '/i', $last_part)) {
                 array_push(
                     $final_resources_array,
                     [
@@ -32,7 +32,7 @@ if (isset($_POST['pattern'])) {
         foreach ($final_resources_array as $final_resource) {
             array_push($filled_with_info_resources, gatherResourceData($final_resource['resource_name'], $final_resource['path']));
         }
-        
+
         echo json_encode($filled_with_info_resources);
     }
 }
