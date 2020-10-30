@@ -39,17 +39,16 @@ if (isset($_POST['path'])) {
     exit;
 }
 
-function folderSize ($dir)
+function get_folder_size($folder)
 {
-    $size = 0;
-
-    foreach (glob(rtrim($dir, '/').'/*', GLOB_NOSORT) as $each) {
-        $size += is_file($each) ? filesize($each) : folderSize($each);
+    $total_size = 0;
+    $file_data = scandir($folder);
+    foreach ($file_data as $file) {
+        $path = $folder . '/' . $file;
+        $total_size = $total_size + filesize($path);
     }
-
-    return format_folder_size($size);
+    return format_folder_size($total_size);
 }
-
 function format_folder_size($size)
 {
     if ($size > 1073741824) return number_format($size / 1073741824, 2) . 'GB';
