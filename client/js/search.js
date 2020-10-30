@@ -19,11 +19,12 @@ function handleKeyUp(e) {
 
 function handleFinnishType(){
     fetchSearchInput().then(resourceList => {
-        if(!resourceList["error"]){
-            $('#breadcrumbs-container').empty();
-            displayTable(resourceList);
+        if(resourceList["error"]){
+           displayErrorMsg('No results for: ' + resourceList.resource_name);
+           return;
         }       
- 
+        $('#breadcrumbs-container').empty();
+        displayTable(resourceList);
 });
 }
 
