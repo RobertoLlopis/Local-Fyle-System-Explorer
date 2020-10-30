@@ -3,6 +3,7 @@ var state = {
 };
 
 $('#properties-display-container').hide();
+//fetchDebug('root').then(response=> console.log(response));
 
 initAnimation();
 
@@ -19,12 +20,14 @@ function initialize() {
 }
 
 $('ul.sidebar').click(function (e) {
+
     var $this = $(this);
     if ($this.hasClass('clicked')) {
 
         $this.removeClass('clicked');
 
         handleAsideDblClick(e);
+
     } else {
         $this.addClass('clicked');
         setTimeout(function () {
@@ -153,14 +156,12 @@ function fetchDirList(path) {
     }).then(res => res.text()).then(text => JSON.parse(text));
 }
 
-function createRow(resource) {    
+function createRow(resource) {
     var iconClass = '';
     resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext;
 
     
-    if (resource.name === '.' || resource.name === "..") return '';
-
-
+    //if (resource.name === '.' || resource.name === "..") return '';
     return `
     <tr data-path="${resource.path}">
         <td><i class="table-icon">  ${icons[iconClass]}</i></td>
@@ -224,4 +225,13 @@ function convertTimeStampToDate(stamp){
     var year = date.getFullYear();
     var formattedTime = day + '/' + month + '/' + year;
     return formattedTime;
+}
+
+function fetchDebug(path){
+    var formData = new FormData();
+    formData.append('path', path);
+    return fetch('server/navigation.php', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.text()).then(text => text);
 }
