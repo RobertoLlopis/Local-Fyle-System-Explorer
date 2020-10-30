@@ -73,8 +73,8 @@
                                 <i class="fas fa-plus"></i> Add new
                             </button>
                             <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#"><i class="fas fa-folder folder-icon-color"></i>&nbsp;&nbsp;Folder</a>
-                                <a class="dropdown-item" href="#"><i class="far fa-file"></i>&nbsp;&nbsp;File</a>
+                                <a class="dropdown-item folder-create" href="#"><i class="fas fa-folder folder-icon-color"></i>&nbsp;&nbsp;Folder</a>
+                                <a class="dropdown-item file-create" href="#"><i class="far fa-file"></i>&nbsp;&nbsp;File</a>
                             </div>
                         </div>
                     </div>
@@ -175,6 +175,7 @@
     <script src="client/js/icons.js"></script>
     <script src="client/js/index.js"></script>
     <script src="client/js/search.js"></script>
+    <script src="client/js/create.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

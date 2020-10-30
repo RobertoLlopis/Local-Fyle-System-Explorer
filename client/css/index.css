@@ -66,6 +66,14 @@
 }
 
 
+#createFolder{
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
 .final-logo-heigth{
     height: 80px !important;
 }
