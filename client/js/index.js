@@ -9,10 +9,11 @@ initAnimation();
 initialize();
 
 function initialize() {
-    updateResourcesListState(state.currentPath).then((resourceList) => {
-
+    fetchDirList(state.currentPath).then((resourceList) => {
+        
+        state.lastResources = resourceList;
+        
         updateMainDisplay(state.currentPath, resourceList);
-
         QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(1, resourceList));
     });
 }
@@ -39,34 +40,36 @@ $('ul.sidebar').click(function (e) {
 
 function handleAsideClick(e) {
     if (e.target.dataset.type === 'dir') {
+
         var path = e.target.dataset.path;
-        updateResourcesListState(path).then((resourceList) => {
+        fetchDirList(path).then((resourceList) => {
+            
+            state.lastResources = resourceList;
+            state.currentPath = path;
+            
             updateMainDisplay(path, resourceList);
             updateSelectedStyle(e);
-            state.currentPath = path;
         });
 
     }
 }
 function handleAsideDblClick(e) {
     if (e.target.dataset.type === 'dir') {
+
         var path = e.target.dataset.path;
-        updateResourcesListState(path)
+        fetchDirList(path)
             .then((resourceList) => {
+                
+                state.lastResources = resourceList;
+                state.currentPath = path;
+                
                 updateAside(e, resourceList);
                 updateMainDisplay(path, resourceList);
                 updateSelectedStyle(e);
-                state.currentPath = path;
             })
     }
 }
-function updateResourcesListState(path) {
-    return fetchDirList(path)
-        .then(resourceList => {
-            state.lastResources = resourceList;
-            return resourceList;
-        });
-}
+
 function updateAside(e, resourceList) {
     var lastChild = e.target.lastElementChild;
     if (lastChild.tagName == 'UL') {
@@ -109,6 +112,7 @@ function removeSelected() {
 
 
 function displayTable(resourceList) {
+
     $('#tableBody').empty();
 
     if (resourceList.length > 2) {
@@ -120,8 +124,10 @@ function displayTable(resourceList) {
 
 
 function setBreadCrumbPath(path) {
+
     var breadCrumbContainer = $('#breadcrumbs-container');
     breadCrumbContainer.empty();
+    
     path = path.split('/');
     path.forEach((item, i) => {
         var breadPath = path.join('/');

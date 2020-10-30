@@ -64,12 +64,18 @@
             <!-- Begin Main Content -->
             <main class="container-fluid d-flex p-0 h-100">
                 <div id="dir-display-container" class="h-100 p-0">
-                    <div class="col-12 p-0">
-                        <div id="breadcrumbs-container" class="d-flex py-4 px-4">
+                    <div class="col-12 p-0 d-flex align-items-center">
+                        <div id="breadcrumbs-container" class="col-9 d-flex py-4 pl-4 pr-0">
 
                         </div>
-                        <div id="add-new-button-container" class="col-3 p-0">
-                            <button class="btn btn-primary" type="button"><i class="fas fa-plus"></i> Add new</button>
+                        <div id="add-new-button-container" class="col-3 p-0 d-flex justify-content-center">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-plus"></i> Add new
+                            </button>
+                            <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#"><i class="fas fa-folder folder-icon-color"></i>&nbsp;&nbsp;Folder</a>
+                                <a class="dropdown-item" href="#"><i class="far fa-file"></i>&nbsp;&nbsp;File</a>
+                            </div>
                         </div>
                     </div>
                     <div class="card">
