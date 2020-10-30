@@ -39,7 +39,7 @@ if (isset($_POST['pattern'])) {
         exit;
     } 
 
-    echo json_encode(array("error" => true));
+    echo json_encode(array("error" => true, 'resource_name' => $_POST['pattern']));
 }
 
 

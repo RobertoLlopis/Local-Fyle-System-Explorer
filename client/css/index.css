@@ -72,8 +72,25 @@
 }
 
 
-
-
+#error-card{
+  display: none;
+  position:absolute;
+  bottom: -20%;
+  transition: bottom 1s ease-out;
+  padding: 2rem 5rem;
+  height: 6rem;
+  right: 2rem;
+}
+#error-card.pop-up{
+  display: initial;
+  bottom: 4%;
+}
+.border-left-error {
+	border-left: .25rem solid #da4d3b !important;
+}
+.error-text-color{
+  color: #da4d3b;
+}
 .final-logo-heigth{
     height: 80px !important;
 }

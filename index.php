@@ -170,6 +170,21 @@
             </div>
         </div>
     </div>
+    <div id="error-card"class="card border-left-error shadow w-75">
+        <div class="card-body">
+            <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+                <div id="error-message"class="h5 mb-0 text-gray-800">No results with name: jkdhsfh</div>
+            </div>
+            <div class="col-auto">
+                <i class="fas fa-times-circle fa-2x error-text-color"></i>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <script src="client/vendor/jquery/jquery.min.js"></script>
     <script src="client/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="client/js/icons.js"></script>
@@ -178,12 +193,6 @@
     <script src="client/js/create.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-
-    <!-- Custom scripts for all pages
-    <script src="js/template.js"></script>
-    -->
 
 </body>
 

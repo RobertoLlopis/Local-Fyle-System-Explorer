@@ -201,7 +201,11 @@ function createResourceLi(resource) {
 
     return `<li class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
 }
-
+function displayErrorMsg(errorString){
+    QS('#error-message').textContent = errorString;
+    QS('#error-card').classList.add('pop-up');
+    setTimeout(()=> QS('#error-card').classList.remove('pop-up'), 2000);
+}
 function QS(selector) {
     return document.querySelector(selector);
 }
