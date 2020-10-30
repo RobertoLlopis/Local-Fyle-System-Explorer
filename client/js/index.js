@@ -94,13 +94,6 @@ function updateSelectedStyle(e) {
 
 function selected(element) {
     element.classList.add('selected');
-    // var children = [...element.children];
-    // children.forEach((child, i) =>{
-    //     if(i > 0){
-    //         child.style.backgroundColor = 'white';
-    //     }
-    // })
-
 }
 
 function removeSelected() {
@@ -161,18 +154,20 @@ function fetchDirList(path) {
 }
 
 function createRow(resource) {
-    if (resource.type === 'dir') {
-        var iconClass = 'fas fa-folder folder-icon-color';
-    } else {
-        var iconClass = 'far fa-file';
-    }
+    var iconClass = '';
+    resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext;
+
+    
+    if (resource.name === '.' || resource.name === "..") return '';
+
+
     return `
     <tr data-path="${resource.path}">
-        <td><i class="table-icon ${iconClass}"></i></td>
+        <td><i class="table-icon">  ${icons[iconClass]}</i></td>
         <td>${resource.name}</td>
-        <td>1.2 MB</td>
-        <td>28/10/2020 - 11:00</td>
-        <td>29/10/2020 - 17:00</td>
+        <td>${resource.size}</td>
+        <td>${convertTimeStampToDate(resource.creation)}</td>
+        <td>${convertTimeStampToDate(resource.lastModification)}</td>
         <td>
         </td>
         <td>
@@ -201,8 +196,8 @@ function createResourceLi(resource) {
 
     if (resource.type === 'dir') var icon = icons['folder']
     else {
-        var ext = resource.name.split('.')[1].slice(0, 3);
-        var icon = icons[ext]
+        var ext = resource.ext;
+        var icon = icons[ext];
     };
 
     return `<li class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
@@ -220,4 +215,13 @@ function initAnimation() {
 
     QS('#accordionSidebar').classList.add('scale-in-hor-left');
     setTimeout(() => { QS('#logo-container').classList.add('final-logo-heigth') }, 500);
+}
+
+function convertTimeStampToDate(stamp){
+    var date = new Date(stamp * 1000);
+    var day = date.getDate();
+    var month = (date.getMonth() + 1).toString().slice(-2);
+    var year = date.getFullYear();
+    var formattedTime = day + '/' + month + '/' + year;
+    return formattedTime;
 }
