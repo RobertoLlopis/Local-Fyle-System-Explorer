@@ -15,7 +15,7 @@ if(isset($_POST['folderName'])){
     }  
 }
 
-echo json_encode(array(gatherResourceData($name, $path)));
+echo json_encode(gatherResourceData($name, $path));
 
 
 function createFolder(&$name, &$path){
