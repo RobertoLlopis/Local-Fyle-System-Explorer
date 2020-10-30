@@ -15,7 +15,7 @@ function initialize() {
         state.lastResources = resourceList;
         
         updateMainDisplay(state.currentPath, resourceList);
-        QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(1, resourceList));
+        QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(resourceList));
     });
 }
 
@@ -80,9 +80,7 @@ function updateAside(e, resourceList) {
         e.target.removeChild(lastChild);
         return;
     };
-
-    let level = Number(e.target.closest('ul').dataset.level) + 1;
-    e.target.insertAdjacentHTML('beforeend', createResourceUl(level, resourceList));
+    e.target.insertAdjacentHTML('beforeend', createResourceUl(resourceList));
 }
 
 function updateMainDisplay(path, resourceList) {
@@ -181,10 +179,10 @@ function createRow(resource) {
     `
 }
 
-function createResourceUl(level, resourceList) {
+function createResourceUl(resourceList) {
     var lis = '';
     resourceList.forEach(resource => lis += createResourceLi(resource));
-    return `<ul data-level="${level}" class="level-${level}">
+    return `<ul>
                 ${lis}
             </ul>`
 }
