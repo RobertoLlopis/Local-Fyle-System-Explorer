@@ -6,6 +6,7 @@ if (isset($_POST['pattern'])) {
     $allResources =  rglob('root/*', $flags = 0);
     $final_resources_array = [];
 
+
     foreach ($allResources as $resource) {
         if (preg_match('/' . $_POST['pattern'] . '/i', $resource)) { //root/Folder1 --- //root/Folder1/img.img
             // Valid match
@@ -33,9 +34,15 @@ if (isset($_POST['pattern'])) {
             array_push($filled_with_info_resources, gatherResourceData($final_resource['resource_name'], $final_resource['path']));
         }
 
+
         echo json_encode($filled_with_info_resources);
-    }
+        exit;
+    } 
+
+    echo json_encode(array("error" => true));
 }
+
+
 function rglob($pattern, $flags = 0)
 {
     $files = glob($pattern, $flags);

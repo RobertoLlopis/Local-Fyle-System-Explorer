@@ -1,5 +1,5 @@
 var icons = {
-    'folder': '<i class="fas fa-folder"></i>',
+    'folder': '<i class="fas fa-folder folder-icon-color"></i>',
     'dir':  '<i class="fas fa-folder folder-icon-color"></i>',
     'file': '<i class="far fa-file"></i>',
     'doc': '<i class="far fa-file-word"></i>',

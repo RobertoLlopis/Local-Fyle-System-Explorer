@@ -1,7 +1,12 @@
-$('.folder-create').on('click', () =>{
-    let path = $('#breadcrumbs-container span').data('path');
-    // create new table row with input to type folder name
-    displayFolderInput(path);
+$('#add-new-button-container').on('click', (e) =>{
+    let target = e.target;
+    if($(target).hasClass('folder-create') || $(target).hasClass('file-create')){
+        let path = $('#breadcrumbs-container span').data('path');
+        let type = '';
+        $(target).hasClass('folder-create') ? type = 'Folder' : type = 'File';
+        displayFolderInput(path, type);
+    }
+
 })
 
 
@@ -17,9 +22,11 @@ $('#tableBody').on('click submit', e =>{
         var form = document.getElementById('createFolder');
         createFolder(form).then((newFolder) =>{
             displayFoldernTable(newFolder)
+            deleteRow(target);
         });
         
     }
+
 })
 
 function displayFoldernTable(folder){
@@ -37,18 +44,19 @@ function createFolder(form){
 }
 
 
+function displayFolderInput(path, type){
 
-
-function displayFolderInput(path){
+    var icon = icons[type.toLowerCase()]
     var row = `
     <tr data-path="root/Folder1/Second-level/">
-        <td><i class="table-icon">  <i class="fas fa-folder folder-icon-color"></i></i></td>
+        <td><i class="table-icon"> ${icon}</i></td>
         <td>
         <form id="createFolder" class="d-flex flex-column"> 
             <input type="text" name="folderName" placeholder="name" class="creatingFolder">
             <input type="text" style="display:none;" name="path" value="${path}">
+            <input type="text" style="display:none;" name="type" value="${type}">
             <div class="d-flex mt-2">
-                <button class="btn btn-primary mr-2 btn-create-folder" type="submit" form="createFolder">Create Folder</button>
+                <button class="btn btn-primary mr-2 btn-create-folder" type="submit" form="createFolder">Create ${type}</button>
                 <button class="btn btn-warning btn-cancel">Cancel</button>
             </div>
         </form>
