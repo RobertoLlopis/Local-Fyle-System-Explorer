@@ -23,9 +23,25 @@
 </head>
 
 <body id="page-top">
+    <div class="preview-modal p-5">
+        <div class="preview-close-button">
+            <button class="btn btn-circle btn-ligth"><i class="fas fa-times-circle text-gray-100"></i></button>
+        </div>
+        <div class="preview-display-container">
+            <audio controls id="preview-audio" class="media">
+                <source src="server/root/Folder2/2second-level/folder33333/song.mp3" type="audio/mpeg">
+            </audio>
+            <video id="preview-video" controls class="media">
+                <source src="server/root/computer_science.mp4" type="video/mp4">
+            </video> 
+            <div class="preview-img-container">
+                <img src="server/root/testando 1/marina.jpg" alt="" id="preview-img">
+            </div>
+        </div>
+    </div>
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Sidebar -->
+    <!-- Aside container -->
         <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
             <a id="logo-container" class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
@@ -168,6 +184,7 @@
     <script src="client/js/index.js"></script>
     <script src="client/js/search.js"></script>
     <script src="client/js/create.js"></script>
+    <script src="client/js/preview.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

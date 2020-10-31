@@ -1,8 +1,10 @@
 var state = {
-    currentPath: 'root'
+    currentPath: 'root',
+    availableExtensions : {audio: ['mp3'], video: ['mp4'], image: ['jpg', 'png', 'svg']}
 };
 
 $('#properties-display-container').hide();
+
 //fetchDebug('root').then(response=> console.log(response));
 
 initAnimation();
@@ -41,6 +43,18 @@ $('ul.sidebar').click(function (e) {
     }
 });
 
+$('#dataTable').on('dblclick', handleTableDblClick);
+$('.preview-modal').click(handleModalClick);
+
+
+function handleTableDblClick(e){
+    if(e.target.closest('tr[data-path]')){
+        var tr = e.target.closest('tr[data-path]');
+        var path = tr.dataset.path;
+        
+        showModal(path);
+    }
+}
 
 function handleAsideClick(e) {
     if (e.target.dataset.type === 'dir') {
@@ -107,7 +121,6 @@ function removeSelected() {
     })
 }
 
-
 function displayTable(resourceList) {
 
     $('#tableBody').empty();
@@ -145,6 +158,30 @@ function setBreadCrumbPath(path) {
     })
 }
 
+function showModal(path){
+    var ext = path.split('.')[1].slice(0,3);
+    
+    if(state.availableExtensions.audio.includes(ext)) {
+        $('#preview-audio source').val('src', 'server/' + path);
+        $('#preview-audio').show();
+    };
+    if(state.availableExtensions.video.includes(ext)) {
+        $('#preview-video source').val('src', 'server/' + path);
+        $('#preview-video').show();
+    }
+    if(state.availableExtensions.image.includes(ext)){
+        $('#preview-img').val('src', 'server/' + path);
+        $('.preview-img-container').show();
+    }
+    $('.preview-modal').fadeIn();
+}
+function handleModalClick(e){
+    if(e.target === e.currentTarget || e.target.closest('.preview-close-button')) closeModal();
+}
+function closeModal(){
+    $('#preview-audio, #preview-video, .preview-img-container, .preview-modal').fadeOut();
+    stopAll();
+}
 function fetchDirList(path) {
     var formData = new FormData();
     formData.append('path', path);
@@ -236,4 +273,12 @@ function fetchDebug(path){
         method: 'POST',
         body: formData
     }).then(res => res.text()).then(text => text);
+}
+function stopAll() {
+    var media = document.getElementsByClassName('media'),
+        i = media.length;
+
+    while (i--) {
+        media[i].pause();
+    }
 }
