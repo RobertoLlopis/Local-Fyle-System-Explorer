@@ -8,7 +8,6 @@ $('#add-new-button-container').on('click', (e) =>{
     }
 })
 
-
 $('#tableBody').on('click submit', e =>{
     e.preventDefault();
     let target = e.target;
