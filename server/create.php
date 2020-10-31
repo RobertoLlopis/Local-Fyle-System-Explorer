@@ -1,8 +1,6 @@
 <?php
 include 'utils.php';
 
-
-
 if(isset($_POST['folderName'])){
     $name = '';
     $path = '';
