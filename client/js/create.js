@@ -18,18 +18,31 @@ $('#tableBody').on('click submit', e =>{
 
 
     if($(target).hasClass('btn-create-folder')){
-        var form = document.getElementById('createFolder');
+        let form = document.getElementById('createFolder');
         createFolder(form).then((newFolder) =>{
             displayFoldernTable(newFolder)
             deleteRow(target);
+            let folderArr = [];
+            folderArr.push(newFolder);
+            updateItensSideBar(folderArr);
         });
         
     }
 
 })
 
+
+function updateItensSideBar(arr){
+    if(QS('.selected') == null){
+        QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(arr));
+    } else if(QS('.selected').children.length > 1){
+            QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(arr));                  
+    }        
+}
+
 function displayFoldernTable(folder){
     QS('tbody').insertAdjacentHTML('beforeend', createRow(folder));
+    console.log(folder);
 }
 
 function createFolder(form){
