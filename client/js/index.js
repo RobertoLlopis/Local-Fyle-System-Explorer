@@ -49,10 +49,24 @@ $('.preview-modal').click(handleModalClick);
 
 function handleTableDblClick(e){
     if(e.target.closest('tr[data-path]')){
+
         var tr = e.target.closest('tr[data-path]');
         var path = tr.dataset.path;
+
+        if(path.split('/').pop().includes('.')){
+
+            showModal(path);
+        } else {
+            fetchDirList(path).then((resourceList) => {
+            
+                state.lastResources = resourceList;
+                state.currentPath = path;
+                
+                updateMainDisplay(path, resourceList);
+                updateSelectedStyle(e);
+            });
+        }
         
-        showModal(path);
     }
 }
 
