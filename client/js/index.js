@@ -52,7 +52,7 @@ function handleTableDblClick(e){
 
         var tr = e.target.closest('tr[data-path]');
         var path = tr.dataset.path;
-
+        console.log(path);
         if(path.split('/').pop().includes('.')){
 
             showModal(path);
@@ -176,15 +176,17 @@ function showModal(path){
     var ext = path.split('.')[1].slice(0,3);
     
     if(state.availableExtensions.audio.includes(ext)) {
-        $('#preview-audio source').val('src', 'server/' + path);
+        $('#preview-audio source').attr('src', 'server/' + path);
+        QS('#preview-audio').load();
         $('#preview-audio').show();
     };
     if(state.availableExtensions.video.includes(ext)) {
-        $('#preview-video source').val('src', 'server/' + path);
+        $('#preview-video source').attr('src', 'server/' + path);
+        QS('#preview-video').load();
         $('#preview-video').show();
     }
     if(state.availableExtensions.image.includes(ext)){
-        $('#preview-img').val('src', 'server/' + path);
+        $('#preview-img').attr('src', 'server/' + path);
         $('.preview-img-container').show();
     }
     $('.preview-modal').fadeIn();

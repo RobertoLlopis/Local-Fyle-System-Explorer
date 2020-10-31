@@ -29,13 +29,13 @@
         </div>
         <div class="preview-display-container">
             <audio controls id="preview-audio" class="media">
-                <source src="server/root/Folder2/2second-level/folder33333/song.mp3" type="audio/mpeg">
+                <source src="" type="audio/mpeg">
             </audio>
             <video id="preview-video" controls class="media">
-                <source src="server/root/computer_science.mp4" type="video/mp4">
+                <source src="" type="video/mp4">
             </video> 
             <div class="preview-img-container">
-                <img src="server/root/testando 1/marina.jpg" alt="" id="preview-img">
+                <img src="" alt="" id="preview-img">
             </div>
         </div>
     </div>
