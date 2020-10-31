@@ -15,8 +15,7 @@ function initialize() {
         state.lastResources = resourceList;
         
         updateMainDisplay(state.currentPath, resourceList);
-        console.log(resourceList);
-        QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(resourceList));
+        QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(1, resourceList));
     });
 }
 
@@ -60,36 +59,30 @@ function handleAsideClick(e) {
 }
 function handleAsideDblClick(e) {
     if (e.target.dataset.type === 'dir') {
-        let children = e.target.children;
-        console.log(children[1]);
-            var path = e.target.dataset.path;
-            fetchDirList(path)
-                .then((resourceList) => {
-                    
-                    state.lastResources = resourceList;
-                    state.currentPath = path;
-                    
-                    updateAside(e, resourceList, children);
-                   
-                    
-                    updateMainDisplay(path, resourceList);
 
-                    updateSelectedStyle(e);
-                    console.log(children);
-                }) 
-                   
+        var path = e.target.dataset.path;
+        fetchDirList(path)
+            .then((resourceList) => {
+                
+                state.lastResources = resourceList;
+                state.currentPath = path;
+                
+                updateAside(e, resourceList);
+                updateMainDisplay(path, resourceList);
+                updateSelectedStyle(e);
+            })
     }
 }
 
-function updateAside(e, resourceList, children) {
+function updateAside(e, resourceList) {
     var lastChild = e.target.lastElementChild;
     if (lastChild.tagName == 'UL') {
         e.target.removeChild(lastChild);
         return;
     };
-    if(children[1] == undefined){
-        e.target.insertAdjacentHTML('beforeend', createResourceUl(resourceList));
-    }
+
+    let level = Number(e.target.closest('ul').dataset.level) + 1;
+    e.target.insertAdjacentHTML('beforeend', createResourceUl(level, resourceList));
 }
 
 function updateMainDisplay(path, resourceList) {
@@ -188,18 +181,12 @@ function createRow(resource) {
     `
 }
 
-function createResourceUl(resourceList) {
-    console.log(resourceList);
+function createResourceUl(level, resourceList) {
     var lis = '';
     resourceList.forEach(resource => lis += createResourceLi(resource));
-    if(resourceList.length > 1){
-        return `<ul class="list-sidebar-item">
+    return `<ul data-level="${level}" class="level-${level}">
                 ${lis}
             </ul>`
-    }
-
-    return lis;
-    
 }
 
 
