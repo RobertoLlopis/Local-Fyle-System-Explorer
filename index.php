@@ -183,12 +183,8 @@
     <script src="client/js/icons.js"></script>
     <script src="client/js/index.js"></script>
     <script src="client/js/search.js"></script>
-<<<<<<< HEAD
     <script src="client/js/crud.js"></script>
-=======
-    <script src="client/js/create.js"></script>
     <script src="client/js/preview.js"></script>
->>>>>>> ba7ff2025e2854d793a0c8ba37a8cc4ef2f143f6
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
