@@ -172,8 +172,10 @@ function setBreadCrumbPath(path) {
     })
 }
 
+
+
 function showModal(path){
-    var ext = path.split('.')[1].slice(0,3);
+    var ext = path.split('.').pop().slice(0,3);
     
     if(state.availableExtensions.audio.includes(ext)) {
         $('#preview-audio source').attr('src', 'server/' + path);
@@ -209,10 +211,11 @@ function fetchDirList(path) {
 
 function createRow(resource) {
     var iconClass = '';
-    resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext;
+    resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext.slice(0,3);
 
     
     if (resource.name === '.' || resource.name === "..") return '';
+
     return `
     <tr data-path="${resource.path}">
         <td><i class="table-icon">  ${icons[iconClass]}</i></td>

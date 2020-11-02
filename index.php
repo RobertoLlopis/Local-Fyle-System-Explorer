@@ -33,7 +33,7 @@
             </audio>
             <video id="preview-video" controls class="media">
                 <source src="" type="video/mp4">
-            </video> 
+            </video>
             <div class="preview-img-container">
                 <img src="" alt="" id="preview-img">
             </div>
@@ -41,7 +41,7 @@
     </div>
     <!-- Page Wrapper -->
     <div id="wrapper">
-    <!-- Aside container -->
+        <!-- Aside container -->
         <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
             <a id="logo-container" class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
@@ -90,8 +90,13 @@
                                 <i class="fas fa-plus"></i> Add new
                             </button>
                             <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item folder-create" href="#"><i class="fas fa-folder folder-icon-color"></i>&nbsp;&nbsp;Folder</a>
-                                <a class="dropdown-item file-create" href="#"><i class="far fa-file"></i>&nbsp;&nbsp;File</a>
+                                <div class="dropdown-item file-upload">
+                                    <i class="fas fa-file-upload"></i>&nbsp;&nbsp;Upload file</a>
+                                    <input type="file" id="upload_input" name="upload" />
+                                </div>
+                                <a class="dropdown-item folder-create" href="#"><i class="fas fa-folder folder-icon-color"></i>&nbsp;&nbsp;New Folder</a>
+                                <a class="dropdown-item file-create" href="#"><i class="far fa-file"></i>&nbsp;&nbsp;New File</a>
+                                <input id type="file" style="display:none">
                             </div>
                         </div>
                     </div>
@@ -163,15 +168,15 @@
         </div>
     </div>
     <!-- End of Page Wrapper -->
-    <div id="error-card"class="card border-left-error shadow w-75">
+    <div id="error-card" class="card border-left-error shadow w-75">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
-            <div class="col mr-2">
-                <div id="error-message"class="h5 mb-0 text-gray-800">No results with name: jkdhsfh</div>
-            </div>
-            <div class="col-auto">
-                <i class="fas fa-times-circle fa-2x error-text-color"></i>
-            </div>
+                <div class="col mr-2">
+                    <div id="error-message" class="h5 mb-0 text-gray-800">No results with name: jkdhsfh</div>
+                </div>
+                <div class="col-auto">
+                    <i class="fas fa-times-circle fa-2x error-text-color"></i>
+                </div>
             </div>
         </div>
     </div>

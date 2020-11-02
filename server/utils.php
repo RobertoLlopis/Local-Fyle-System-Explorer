@@ -11,7 +11,8 @@ function gatherResourceData($resource_name, $path){
         $ext = null;
         $size = get_folder_size($new_path);
     } else {
-        $ext = explode('.', $resource_name)[1];
+        $ext_array = explode('.', $resource_name);
+        $ext = end($ext_array);
         $size = format_folder_size(filesize($new_path));
     }
 
