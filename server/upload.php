@@ -1,13 +1,11 @@
 <?php
     include 'utils.php'; 
 
-    if(isset($_POST)){ echo json_encode($_FILES);
-        echo json_encode($_FILES);};
     if(isset($_FILES['file'])){
         $path_until_new_file = $_POST['path'];
     
         if ( 0 < $_FILES['file']['error'] ) {
-            echo 'Error: ' . $_FILES['file']['error'] . '<br>';
+            echo json_encode(['Error' => $_FILES['file']['error']]);
         }
         else {
             $fileName = $_FILES['file']['name'];
