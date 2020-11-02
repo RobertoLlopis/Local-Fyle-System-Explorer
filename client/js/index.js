@@ -74,6 +74,7 @@ function handleAsideClick(e) {
     if (e.target.dataset.type === 'dir') {
 
         var path = e.target.dataset.path;
+        console.log(path);
         fetchDirList(path).then((resourceList) => {
             
             state.lastResources = resourceList;
@@ -89,6 +90,7 @@ function handleAsideDblClick(e) {
     if (e.target.dataset.type === 'dir') {
 
         var path = e.target.dataset.path;
+
         fetchDirList(path)
             .then((resourceList) => {
                 
@@ -151,7 +153,6 @@ function setBreadCrumbPath(path) {
 
     var breadCrumbContainer = $('#breadcrumbs-container');
     breadCrumbContainer.empty();
-    
     path = path.split('/');
     path.forEach((item, i) => {
         var breadPath = path.join('/');
@@ -215,8 +216,7 @@ function fetchDirList(path) {
 function createRow(resource) {
     var iconClass = '';
     resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext.slice(0,3);
-
-    
+    console.log(resource);
     if (resource.name === '.' || resource.name === "..") return '';
 
     return `

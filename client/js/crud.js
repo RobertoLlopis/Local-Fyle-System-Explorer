@@ -57,6 +57,7 @@ $('#tableBody').on('click submit', e =>{
         let row = $(target).parent().parent().parent();
         let path = $(row).data('path');        
         deletePath(path).then((res) =>{
+            console.log(path);
              deleteRow(row);
              var li = QS(`li[data-path="${path}"]`);
              console.log(li);

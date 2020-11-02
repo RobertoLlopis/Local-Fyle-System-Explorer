@@ -4,7 +4,7 @@ include 'utils.php';
 // Construct new path
 
 if(isset($_POST['toDelete'])){
-    $test = $_POST['toDelete'].'/';
+    $test = $_POST['toDelete'];
 
     $res = delete_files($test);
     echo json_encode($res);
@@ -65,13 +65,12 @@ function delete_files($target) {
         rmdir( $target );
         
     } else{
-        $target = substr($target, 0, -1);
+        //$target = substr($target, 0, -1);
         $res = true;
         is_file($target) ? unlink( $target ) : $res = 'not a file';
         if($res){
             unlink($target);
-        }
-        
+        }        
         return $res;
     }
 
