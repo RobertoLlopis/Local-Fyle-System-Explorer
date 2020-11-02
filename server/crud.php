@@ -4,9 +4,9 @@ include 'utils.php';
 // Construct new path
 
 if(isset($_POST['toDelete'])){
-    $test = $_POST['toDelete'];
+    $deleteFile = $_POST['toDelete'];
 
-    $res = delete_files($test);
+    $res = delete_files($deleteFile);
     echo json_encode($res);
     exit;
 }
@@ -19,10 +19,10 @@ $pathToSend = getPathToSend();
 $status = edit($newPath);
 
 //Preparing response for the client
-$test = gatherResourceData($_POST['newName'], $pathToSend);
+$obj = gatherResourceData($_POST['newName'], $pathToSend);
 $res = new stdClass;
 $res->oldPath = $_POST['path'];
-$res->bulkRes = $test ;
+$res->bulkRes = $obj;
 
 
 echo json_encode($res);

@@ -107,6 +107,7 @@ function updateEditSidebar(res){
         var icon;
         res.bulkRes.ext == null ? icon = 'dir' : icon = res.bulkRes.ext;
         li.innerHTML = icons[icon]+' '+res.bulkRes.name;
+        li.dataset.path = res.bulkRes.path;
     }   
 }
 
