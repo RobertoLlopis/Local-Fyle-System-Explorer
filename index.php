@@ -25,7 +25,7 @@
 <body id="page-top">
     <div class="preview-modal p-5">
         <div class="preview-close-button">
-            <button class="btn btn-circle btn-ligth"><i class="fas fa-times-circle text-gray-100"></i></button>
+            <button class="btn btn-circle btn-ligth"><i class="fas fa-times-circle"></i></button>
         </div>
         <div class="preview-display-container">
             <audio controls id="preview-audio" class="media">
@@ -116,46 +116,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tableBody">
-                                        <tr>
-                                            <td><i class="fas fa-folder table-icon folder-icon-color"></i></td>
-                                            <td>Folder 1</td>
-                                            <td>1.2 MB</td>
-                                            <td>28/10/2020 - 11:00</td>
-                                            <td>29/10/2020 - 17:00</td>
-                                            <td>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="btn btn-light btn-icon-split">
-                                                    <span class="icon text-gray-600">
-                                                        <i class="fas fa-info-circle"></i>
-                                                    </span>
-                                                    <span class="text">Info</span>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><i class="far fa-file table-icon"></i></td>
-                                            <td>File 1</td>
-                                            <td>1.2 MB</td>
-                                            <td>28/10/2020 - 11:00</td>
-                                            <td>29/10/2020 - 17:00</td>
-                                            <td>
-                                                <a href="#" class="btn btn-info btn-icon-split">
-                                                    <span class="icon text-white-50">
-                                                        <i class="fas fa-play"></i>
-                                                    </span>
-                                                    <span class="text">Preview</span>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="btn btn-light btn-icon-split">
-                                                    <span class="icon text-gray-600">
-                                                        <i class="fas fa-info-circle"></i>
-                                                    </span>
-                                                    <span class="text">Info</span>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -190,6 +151,7 @@
     <script src="client/js/search.js"></script>
     <script src="client/js/crud.js"></script>
     <script src="client/js/preview.js"></script>
+    <script src="client/js/dragAndDrop.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

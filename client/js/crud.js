@@ -66,12 +66,11 @@ $('#tableBody').on('click submit', e =>{
 
 /*-----FUNCTIONS--------*/
 
-function handleFileUpload(){
-    var file_data = $('#upload_input').prop('files')[0];   
+function handleFileUpload(file){
+    if(!file) var file = $('#upload_input').prop('files')[0];   
     var form_data = new FormData();                  
-    form_data.append('file', file_data);
-    form_data.append('path', state.currentPath);
-    console.log(form_data);         
+    form_data.append('file', file);
+    form_data.append('path', state.currentPath);        
     fetch('server/upload.php', {method: 'post', body: form_data}).then(res => res.text())
     .then(text => {
         var newResource = JSON.parse(text);
