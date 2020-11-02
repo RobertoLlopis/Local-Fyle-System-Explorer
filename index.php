@@ -89,7 +89,7 @@
                                             <th>Size</th>
                                             <th>Start date</th>
                                             <th>Last modification</th>
-                                            <th>Preview</th>
+                                            <th>Edit-Delete</th>
                                             <th>Properties</th>
                                         </tr>
                                     </thead>
@@ -190,7 +190,7 @@
     <script src="client/js/icons.js"></script>
     <script src="client/js/index.js"></script>
     <script src="client/js/search.js"></script>
-    <script src="client/js/create.js"></script>
+    <script src="client/js/crud.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
