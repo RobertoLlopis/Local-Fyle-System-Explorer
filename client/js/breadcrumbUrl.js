@@ -11,7 +11,6 @@ $('#breadcrumbs-container').on('click', function(e){
 
 
 function updateSelectedStyleBread(path){
-    path = path.slice(0,-1);
     var li = document.querySelector(`li[data-path="${path}"]`);
     removeSelected();
     if(li !== null){

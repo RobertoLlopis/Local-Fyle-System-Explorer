@@ -106,6 +106,9 @@ function handleAsideDblClick(e) {
 
 function updateAside(e, resourceList) {
     var lastChild = e.target.lastElementChild;
+    if(lastChild == null){
+        return;
+    }
     if (lastChild.tagName == 'UL') {
         e.target.removeChild(lastChild);
         return;
