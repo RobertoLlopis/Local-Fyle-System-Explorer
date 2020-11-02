@@ -18,6 +18,7 @@ function initialize() {
         
         updateMainDisplay(state.currentPath, resourceList);
         QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(resourceList));
+        putTrashIcon()
     });
 }
 
@@ -52,7 +53,7 @@ function handleTableDblClick(e){
 
         var tr = e.target.closest('tr[data-path]');
         var path = tr.dataset.path;
-        console.log(path);
+        //console.log(path);
         if(path.split('/').pop().includes('.')){
 
             showModal(path);
@@ -219,8 +220,10 @@ function fetchDirList(path) {
 function createRow(resource) {
     var iconClass = '';
     resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext.slice(0,3);
-    console.log(resource);
+    //console.log(resource);
     if (resource.name === '.' || resource.name === "..") return '';
+
+    resource.path == 'root/Trash' ? iconClass = 'trash' : iconClass = iconClass;
 
     return `
     <tr data-path="${resource.path}">
@@ -315,4 +318,13 @@ function stopAll() {
     while (i--) {
         media[i].pause();
     }
+}
+
+
+function putTrashIcon(){
+    var trash = $(`li[data-path="root/Trash"]`);
+    $(trash).text('');
+    var child = trash.children[0];
+    $(child).remove();
+    $(trash).append(icons['trash'] + ' Trash');
 }

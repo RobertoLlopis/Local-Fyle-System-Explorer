@@ -3,20 +3,47 @@ include 'utils.php';
 
 // Construct new path
 
-if(isset($_POST['toDelete'])){
+if(isset($_POST['isDelete']) && $_POST['isDelete'] == 'wtf'){
     $deleteFile = $_POST['toDelete'];
-
     $res = delete_files($deleteFile);
+    echo json_encode($deleteFile);
+    exit;
+}
+
+
+
+if(isset($_POST['isDelete']) && $_POST['isDelete'] == true){
+    $obj = moveToTrash();
+    $res = new stdClass;
+    $res->oldPath = $_POST['toDelete'];
+    $res->bulkRes = $obj;
     echo json_encode($res);
     exit;
 }
+
+
+
+
+/*----Trash Functions-----*/
+function moveToTrash(){
+    $toDelete = $_POST['toDelete'];
+    $newPath = explode("/", $_POST['toDelete']);
+    $fileFolder = $newPath[count($newPath) - 1];
+    $path = 'root/Trash/'.$fileFolder;
+    edit($toDelete, $path);
+    $obj = gatherResourceData($fileFolder, 'root/Trash');
+    return $obj;
+}
+
+
 
 
 $newPath = constructNewPath();
 $pathToSend = getPathToSend();
 
 //Rename
-$status = edit($newPath);
+$path = $_POST['path'];
+$status = edit($path , $newPath);
 
 //Preparing response for the client
 $obj = gatherResourceData($_POST['newName'], $pathToSend);
@@ -41,8 +68,8 @@ function constructNewPath(){
     return $newPath;
 }
 
-function edit(&$newPath){
-    $res = rename($_POST['path'], $newPath);
+function edit(&$path, &$newPath){
+    $res = rename($path, $newPath);
     return $res;
 }
 
@@ -69,7 +96,8 @@ function delete_files($target) {
         $res = true;
         is_file($target) ? unlink( $target ) : $res = 'not a file';
         if($res){
-            unlink($target);
+            //unlink($target);
+            unlink($_SERVER['DOCUMENT_ROOT'].'\/server/'. $target);
         }        
         return $res;
     }

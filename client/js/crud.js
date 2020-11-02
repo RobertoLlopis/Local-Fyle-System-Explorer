@@ -43,6 +43,7 @@ $('#tableBody').on('click submit', e =>{
     if($(target).hasClass('btn-edit-folder')){
         let form = document.getElementById('editFolder');
         edit(form).then(res => {
+            console.log(res);
             updateEdittable(res, createRow(res.bulkRes))
             updateEditSidebar(res);
         });
@@ -53,23 +54,31 @@ $('#tableBody').on('click submit', e =>{
     }
 
 
-    if($(target).hasClass('delete')){
+    if($(target).hasClass('delete') && $('.crumbPath').data('path') !== "root/Trash"){
         let row = $(target).parent().parent().parent();
         let path = $(row).data('path');        
-        deletePath(path).then((res) =>{
-            console.log(path);
-             deleteRow(row);
-             var li = QS(`li[data-path="${path}"]`);
-             console.log(li);
-             $(li).remove();
+        deletePath(path, true).then((res) =>{
+            deleteRow(row);
+            var li = QS(`li[data-path="${path}"]`);
+            $(li).remove();
+        });
+    } else if($(target).hasClass('delete')){
+        let row = $(target).parent().parent().parent();
+        let path = $(row).data('path');   
+        console.log(path);     
+        deletePath(path, 'wtf').then((res) =>{
+            console.log(res);
+            deleteRow(row);
+            var li = QS(`li[data-path="${path}"]`);
+            $(li).remove();
         });
     }
 })
 
 
 
-/*-----FUNCTIONS--------*/
 
+/*-----FUNCTIONS--------*/
 function handleFileUpload(){
     var file_data = $('#upload_input').prop('files')[0];   
     var form_data = new FormData();                  
@@ -91,9 +100,10 @@ function canceledit(target){
 }
 
 
-function deletePath(path){
+function deletePath(path, isDelete){
     var formData = new FormData();
-    formData.append('toDelete', path)
+    formData.append('toDelete', path);
+    formData.append('isDelete', isDelete);
     return fetch('server/crud.php', {
         method: 'POST',
         body: formData
