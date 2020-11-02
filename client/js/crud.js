@@ -1,12 +1,14 @@
 $('#add-new-button-container').on('click', (e) =>{
     let target = e.target;
+    let path = $('#breadcrumbs-container span').data('path');
     if($(target).hasClass('folder-create') || $(target).hasClass('file-create')){
-        let path = $('#breadcrumbs-container span').data('path');
         let type = '';
         $(target).hasClass('folder-create') ? type = 'Folder' : type = 'File';
         displayFolderInput(path, type);
     }
 })
+$('#upload_input').change(handleFileUpload);
+
 
 
 $('#tableBody').on('click submit', e =>{
@@ -65,6 +67,18 @@ $('#tableBody').on('click submit', e =>{
 
 /*-----FUNCTIONS--------*/
 
+function handleFileUpload(){
+    var file_data = $('#upload_input').prop('files')[0];   
+    var form_data = new FormData();                  
+    form_data.append('file', file_data);
+    form_data.append('path', state.currentPath);
+    console.log(form_data);         
+    fetch('server/upload.php', {method: 'post', body: form_data}).then(res => res.text())
+    .then(text => {
+        var newResource = JSON.parse(text);
+        QS('tbody').insertAdjacentHTML('beforeend', createRow(newResource));
+    });                   
+}
 
 function canceledit(target){
     var parent = target.parentNode.parentNode.parentNode.parentNode;
