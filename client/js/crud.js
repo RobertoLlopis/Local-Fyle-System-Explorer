@@ -135,10 +135,11 @@ function displayEditInput(parent, path){
 }
 
 function updateItensSideBar(arr){
+    console.log(arr);
     if(QS('.selected') == null){
-        QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(1, arr));
+        QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(arr));
     } else if(QS('.selected').children.length > 1){
-        QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(1, arr));                  
+        QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(arr));                  
     }        
 }
 

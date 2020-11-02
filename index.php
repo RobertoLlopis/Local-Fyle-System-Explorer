@@ -185,6 +185,7 @@
     <script src="client/js/search.js"></script>
     <script src="client/js/crud.js"></script>
     <script src="client/js/preview.js"></script>
+    <script src="client/js/breadcrumbUrl.js"></script>    
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
