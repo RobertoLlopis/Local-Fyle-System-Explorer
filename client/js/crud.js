@@ -23,6 +23,7 @@ $('#tableBody').on('click submit', e =>{
     if($(target).hasClass('btn-create-folder')){
         let form = document.getElementById('createFolder');
         createFolder(form).then((newFolder) =>{
+            console.log(newFolder);
             displayFoldernTable(newFolder)
             console.log(newFolder);
             var toDelete = $(target).parent().parent().parent().parent();
