@@ -175,6 +175,10 @@ function createRow(resource) {
         <td>${convertTimeStampToDate(resource.creation)}</td>
         <td>${convertTimeStampToDate(resource.lastModification)}</td>
         <td>
+            <div class="edit-delete d-flex">
+                <i class="far fa-edit mr-5 edit"></i>
+                <i class="fas fa-trash-alt delete"></i>
+            </div>
         </td>
         <td>
             <a href="#" class="btn btn-light btn-icon-split">
