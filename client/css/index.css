@@ -1,3 +1,7 @@
+ tr{
+  cursor: pointer;
+}
+
 #dir-display-container {
   width: 100%;
 }
@@ -101,7 +105,58 @@
 .final-logo-heigth {
   height: 80px !important;
 }
+.preview-modal{
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(110, 112, 126, 0.698);
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  display: none;
+}
+.preview-close-button{
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: right;
+  
+}
+.preview-close-button button {
+  margin-right: 2rem;
+box-shadow: 0px 0px 18px 0px rgba(255,255,255,0.87);
 
+}
+.preview-close-button i{
+  font-size: 3rem;
+}
+
+#preview-audio, #preview-video, .preview-img-container{
+  width: 100%;
+  background-color: rgb(218, 218, 218);
+  border-radius: 4px;
+  margin: 0 auto;
+  display: none;
+}
+#preview-audio{
+  padding: 2rem 5rem;
+  
+}
+#preview-video{
+  width: 100%;
+ 
+}
+.preview-img-container{
+  height: 80vh;
+  padding:1.5rem;
+}
+#preview-img{
+  max-width: 100%;
+  max-height: 100%;
+  display: block; 
+  margin: 0 auto;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 18px 0px rgba(255,255,255,0.87); 
+box-shadow: 0px 0px 18px 0px rgba(255,255,255,0.87);
+}
 .slide-out-top {
   -webkit-animation: slide-out-top 0.8s;
   animation: slide-out-top 0.8s;

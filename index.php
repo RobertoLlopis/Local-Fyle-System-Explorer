@@ -6,10 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Little CRUD and display app of a file tree">
+    <meta name="author" content="Roberto Llopis">
+    <meta name="author" content="Henrique Peña">
 
-    <title>SB Admin 2 - Blank</title>
+    <title>Coverfy file manager</title>
 
     <!-- Custom fonts for this template-->
     <link href="client/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -22,9 +23,25 @@
 </head>
 
 <body id="page-top">
+    <div class="preview-modal p-5">
+        <div class="preview-close-button">
+            <button class="btn btn-circle btn-ligth"><i class="fas fa-times-circle text-gray-100"></i></button>
+        </div>
+        <div class="preview-display-container">
+            <audio controls id="preview-audio" class="media">
+                <source src="" type="audio/mpeg">
+            </audio>
+            <video id="preview-video" controls class="media">
+                <source src="" type="video/mp4">
+            </video> 
+            <div class="preview-img-container">
+                <img src="" alt="" id="preview-img">
+            </div>
+        </div>
+    </div>
     <!-- Page Wrapper -->
     <div id="wrapper">
-        <!-- Sidebar -->
+    <!-- Aside container -->
         <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Sidebar - Brand -->
             <a id="logo-container" class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php">
@@ -146,30 +163,6 @@
         </div>
     </div>
     <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
     <div id="error-card"class="card border-left-error shadow w-75">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -190,7 +183,12 @@
     <script src="client/js/icons.js"></script>
     <script src="client/js/index.js"></script>
     <script src="client/js/search.js"></script>
+<<<<<<< HEAD
     <script src="client/js/crud.js"></script>
+=======
+    <script src="client/js/create.js"></script>
+    <script src="client/js/preview.js"></script>
+>>>>>>> ba7ff2025e2854d793a0c8ba37a8cc4ef2f143f6
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
