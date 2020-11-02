@@ -17,7 +17,7 @@ function initialize() {
         state.lastResources = resourceList;
         
         updateMainDisplay(state.currentPath, resourceList);
-        QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(1, resourceList));
+        QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(resourceList));
     });
 }
 
@@ -110,7 +110,7 @@ function updateAside(e, resourceList) {
     };
 
     let level = Number(e.target.closest('ul').dataset.level) + 1;
-    e.target.insertAdjacentHTML('beforeend', createResourceUl(level, resourceList));
+    e.target.insertAdjacentHTML('beforeend', createResourceUl(resourceList));
 }
 
 function updateMainDisplay(path, resourceList) {
@@ -145,6 +145,7 @@ function displayTable(resourceList) {
         QS('tbody').insertAdjacentHTML('beforeend', createRow(resource));
     }
 }
+
 
 function setBreadCrumbPath(path) {
 
@@ -243,7 +244,7 @@ function createRow(resource) {
     `
 }
 
-function createResourceUl(level, resourceList) {
+function createResourceUl(resourceList) {
     console.log(resourceList)
     var lis = '';
     resourceList.forEach(resource => lis += createResourceLi(resource));

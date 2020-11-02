@@ -24,11 +24,12 @@ $('#tableBody').on('click submit', e =>{
         let form = document.getElementById('createFolder');
         createFolder(form).then((newFolder) =>{
             displayFoldernTable(newFolder)
+            console.log(newFolder);
             var toDelete = $(target).parent().parent().parent().parent();
             deleteRow(toDelete);
             let folderArr = [];
             folderArr.push(newFolder);
-            updateItensSideBar(folderArr);
+            updateItensSideBar(folderArr, newFolder.path);
         });      
     }
 
@@ -148,11 +149,12 @@ function displayEditInput(parent, path){
     $(parent).append(input);
 }
 
-function updateItensSideBar(arr){
-    if(QS('.selected') == null){
-        QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(1, arr));
-    } else if(QS('.selected').children.length > 1){
-        QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(1, arr));                  
+function updateItensSideBar(arr, path){
+    path = path.split('/');
+    if(QS('.selected') == null && path.length == 2){
+        QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(arr));
+    } else if(QS('.selected') !== null && QS('.selected').children.length > 1){
+        QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(arr));                  
     }        
 }
 

@@ -77,6 +77,10 @@ ul span,
   cursor: pointer;
 }
 
+.crumbPath:hover{
+  text-decoration: underline;
+}
+
 #createFolder {
   display: flex;
   flex-direction: column;
