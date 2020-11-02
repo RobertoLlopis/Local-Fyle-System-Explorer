@@ -2,6 +2,7 @@ $('#breadcrumbs-container').on('click', function(e){
     var path = getBreadPath(e);
     console.log(path);
     fetchDirList(path).then(res => {
+        console.log(res);
         setBreadCrumbPath(path);
         displayTable(res);
         updateSelectedStyleBread(path);    
