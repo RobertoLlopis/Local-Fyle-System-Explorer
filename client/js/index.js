@@ -72,7 +72,7 @@ function handleTableDblClick(e){
 
 function handleAsideClick(e) {
     if (e.target.dataset.type === 'dir') {
-        console.log('wtf')
+
         var path = e.target.dataset.path;
         fetchDirList(path).then((resourceList) => {
             
@@ -120,8 +120,10 @@ function updateMainDisplay(path, resourceList) {
 
 function updateSelectedStyle(e) {
     removeSelected();
-    e.target.classList.add('selected');
-    selected(e.target);
+    if(e.target.textContent !== 'Root'){
+        e.target.classList.add('selected');
+        selected(e.target);
+    }    
 }
 
 function selected(element) {
@@ -239,11 +241,16 @@ function createRow(resource) {
 }
 
 function createResourceUl(level, resourceList) {
+    console.log(resourceList)
     var lis = '';
     resourceList.forEach(resource => lis += createResourceLi(resource));
-    return `<ul data-level="${level}" class="level-${level}">
+    if(resourceList.length > 1){
+        return `<ul class="list-sidebar-item">
                 ${lis}
             </ul>`
+    }
+
+    return lis;
 }
 
 

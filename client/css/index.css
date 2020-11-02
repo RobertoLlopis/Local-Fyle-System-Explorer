@@ -72,6 +72,10 @@ ul span, #root-li li {
   z-index: -1;
 }
 
+.crumbPath{
+  cursor: pointer;
+}
+
 #createFolder {
   display: flex;
   flex-direction: column;

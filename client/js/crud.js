@@ -55,6 +55,7 @@ $('#tableBody').on('click submit', e =>{
         deletePath(path).then((res) =>{
              deleteRow(row);
              var li = QS(`li[data-path="${path}"]`);
+             console.log(li);
              $(li).remove();
         });
     }
@@ -135,9 +136,9 @@ function displayEditInput(parent, path){
 
 function updateItensSideBar(arr){
     if(QS('.selected') == null){
-        QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(arr));
+        QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(1, arr));
     } else if(QS('.selected').children.length > 1){
-        QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(arr));                  
+        QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(1, arr));                  
     }        
 }
 
