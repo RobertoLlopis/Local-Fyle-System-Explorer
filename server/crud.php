@@ -3,26 +3,37 @@ include 'utils.php';
 
 // Construct new path
 
-if(isset($_POST['toDelete'])){
-    $test = $_POST['toDelete'].'/';
-
-    $res = delete_files($test);
-    echo json_encode($res);
+if(isset($_POST['isDelete']) && $_POST['isDelete'] == 'wtf'){
+    $deleteFile = $_POST['toDelete'];
+    $res = delete_files($deleteFile);
+    echo json_encode($deleteFile);
     exit;
 }
 
 
+
+if(isset($_POST['isDelete']) && $_POST['isDelete'] == true){
+    $obj = moveToTrash();
+    $res = new stdClass;
+    $res->oldPath = $_POST['toDelete'];
+    $res->bulkRes = $obj;
+    echo json_encode($res);
+    exit;
+}
+
 $newPath = isset($_POST['newPath']) ? $_POST['newPath'] : constructNewPath();
 $pathToSend = isset($_POST['pathToSend']) ? $_POST['pathToSend'] : getPathToSend();
 
+
 //Rename
-$status = edit($newPath);
+$path = $_POST['path'];
+$status = edit($path , $newPath);
 
 //Preparing response for the client
-$test = gatherResourceData($_POST['newName'], $pathToSend);
+$obj = gatherResourceData($_POST['newName'], $pathToSend);
 $res = new stdClass;
 $res->oldPath = $_POST['path'];
-$res->bulkRes = $test ;
+$res->bulkRes = $obj;
 
 
 echo json_encode($res);
@@ -41,8 +52,8 @@ function constructNewPath(){
     return $newPath;
 }
 
-function edit(&$newPath){
-    $res = rename($_POST['path'], $newPath);
+function edit(&$path, &$newPath){
+    $res = rename($path, $newPath);
     return $res;
 }
 
@@ -65,15 +76,26 @@ function delete_files($target) {
         rmdir( $target );
         
     } else{
-        $target = substr($target, 0, -1);
+        //$target = substr($target, 0, -1);
         $res = true;
         is_file($target) ? unlink( $target ) : $res = 'not a file';
         if($res){
-            unlink($target);
-        }
-        
+            //unlink($target);
+            unlink($_SERVER['DOCUMENT_ROOT'].'\/server/'. $target);
+        }        
         return $res;
     }
 
     
+}
+
+/*----Trash Functions-----*/
+function moveToTrash(){
+    $toDelete = $_POST['toDelete'];
+    $newPath = explode("/", $_POST['toDelete']);
+    $fileFolder = $newPath[count($newPath) - 1];
+    $path = 'root/Trash/'.$fileFolder;
+    edit($toDelete, $path);
+    $obj = gatherResourceData($fileFolder, 'root/Trash');
+    return $obj;
 }

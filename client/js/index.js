@@ -18,6 +18,7 @@ function initialize() {
         
         updateMainDisplay(state.currentPath, resourceList);
         QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(resourceList));
+        putTrashIcon()
     });
 }
 
@@ -52,7 +53,7 @@ function handleTableDblClick(e){
 
         var tr = e.target.closest('tr[data-path]');
         var path = tr.dataset.path;
-        console.log(path);
+        //console.log(path);
         if(path.split('/').pop().includes('.')){
 
             showModal(path);
@@ -73,6 +74,7 @@ function handleTableDblClick(e){
 function handleAsideClick(e) {
     if (e.target.dataset.type === 'dir') {
         var path = e.target.dataset.path;
+        console.log(path);
         fetchDirList(path).then((resourceList) => {
             
             state.lastResources = resourceList;
@@ -88,6 +90,7 @@ function handleAsideDblClick(e) {
     if (e.target.dataset.type === 'dir') {
 
         var path = e.target.dataset.path;
+
         fetchDirList(path)
             .then((resourceList) => {
                 
@@ -103,6 +106,9 @@ function handleAsideDblClick(e) {
 
 function updateAside(e, resourceList) {
     var lastChild = e.target.lastElementChild;
+    if(lastChild == null){
+        return;
+    }
     if (lastChild.tagName == 'UL') {
         e.target.removeChild(lastChild);
         return;
@@ -118,8 +124,10 @@ function updateMainDisplay(path, resourceList) {
 
 function updateSelectedStyle(e) {
     removeSelected();
-    e.target.classList.add('selected');
-    selected(e.target);
+    if(e.target.textContent !== 'Root'){
+        e.target.classList.add('selected');
+        selected(e.target);
+    }    
 }
 
 function selected(element) {
@@ -142,11 +150,11 @@ function displayTable(resourceList) {
     }
 }
 
+
 function setBreadCrumbPath(path) {
 
     var breadCrumbContainer = $('#breadcrumbs-container');
     breadCrumbContainer.empty();
-    
     path = path.split('/');
     path.forEach((item, i) => {
         var breadPath = path.join('/');
@@ -211,9 +219,10 @@ function fetchDirList(path) {
 function createRow(resource) {
     var iconClass = '';
     resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext.slice(0,3);
-
-    
+    //console.log(resource);
     if (resource.name === '.' || resource.name === "..") return '';
+
+    resource.path == 'root/Trash' ? iconClass = 'trash' : iconClass = iconClass;
 
     return `
     <tr draggable="true" data-path="${resource.path}">
@@ -241,11 +250,16 @@ function createRow(resource) {
 }
 
 function createResourceUl(resourceList) {
+    console.log(resourceList)
     var lis = '';
     resourceList.forEach(resource => lis += createResourceLi(resource));
-    return `<ul>
-                ${lis}
-            </ul>`
+    if(resourceList.length > 1){
+        return `<ul class="list-sidebar-item">
+                    ${lis}
+                </ul>`
+    }
+
+    return lis;
 }
 
 
@@ -303,4 +317,13 @@ function stopAll() {
     while (i--) {
         media[i].pause();
     }
+}
+
+
+function putTrashIcon(){
+    var trash = $(`li[data-path="root/Trash"]`);
+    $(trash).text('');
+    var child = trash.children[0];
+    $(child).remove();
+    $(trash).append(icons['trash'] + ' Trash');
 }

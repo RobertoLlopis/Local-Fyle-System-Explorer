@@ -50,8 +50,13 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Pages Collapse Menu -->
+<<<<<<< HEAD
             <li id="root-li" data-path="root" class="nav-item">
                 <i class="fas fa-server"></i> <span data-path="root/" data-type="dir">Root</span>
+=======
+            <li id="root-li" data-path="root/" class="nav-item">
+                <i class="fas fa-server"></i> <span data-path="root" data-type="dir">Root</span>
+>>>>>>> trash
             </li>
         </ul>
         <!-- End of Sidebar -->
@@ -151,7 +156,11 @@
     <script src="client/js/search.js"></script>
     <script src="client/js/crud.js"></script>
     <script src="client/js/preview.js"></script>
+<<<<<<< HEAD
     <script src="client/js/dragAndDrop.js"></script>
+=======
+    <script src="client/js/breadcrumbUrl.js"></script>    
+>>>>>>> trash
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

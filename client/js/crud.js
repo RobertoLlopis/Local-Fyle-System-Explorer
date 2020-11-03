@@ -23,12 +23,14 @@ $('#tableBody').on('click submit', e =>{
     if($(target).hasClass('btn-create-folder')){
         let form = document.getElementById('createFolder');
         createFolder(form).then((newFolder) =>{
+            console.log(newFolder);
             displayFoldernTable(newFolder)
+            console.log(newFolder);
             var toDelete = $(target).parent().parent().parent().parent();
             deleteRow(toDelete);
             let folderArr = [];
             folderArr.push(newFolder);
-            updateItemsSideBar(folderArr);
+            updateItemsSideBar(folderArr, newFolder.path);
         });      
     }
 
@@ -41,6 +43,7 @@ $('#tableBody').on('click submit', e =>{
     if($(target).hasClass('btn-edit-folder')){
         let form = document.getElementById('editFolder');
         edit(form).then(res => {
+            console.log(res);
             updateEdittable(res, createRow(res.bulkRes))
             updateEditSidebar(res);
         });
@@ -51,20 +54,29 @@ $('#tableBody').on('click submit', e =>{
     }
 
 
-    if($(target).hasClass('delete')){
+    if($(target).hasClass('delete') && $('.crumbPath').data('path') !== "root/Trash"){
         let row = $(target).parent().parent().parent();
         let path = $(row).data('path');        
-        deletePath(path).then((res) =>{
-             deleteRow(row);
-             var li = QS(`li[data-path="${path}"]`);
-             $(li).remove();
+        deletePath(path, true).then((res) =>{
+            deleteRow(row);
+            var li = QS(`li[data-path="${path}"]`);
+            $(li).remove();
+        });
+    } else if($(target).hasClass('delete')){
+        let row = $(target).parent().parent().parent();
+        let path = $(row).data('path');   
+        console.log(path);     
+        deletePath(path, 'wtf').then((res) =>{
+            console.log(res);
+            deleteRow(row);
+            var li = QS(`li[data-path="${path}"]`);
+            $(li).remove();
         });
     }
 })
 
 
 
-/*-----FUNCTIONS--------*/
 
 function handleFileUpload(file){
     if(!file) var file = $('#upload_input').prop('files')[0];   
@@ -86,9 +98,10 @@ function canceledit(target){
 }
 
 
-function deletePath(path){
+function deletePath(path, isDelete){
     var formData = new FormData();
-    formData.append('toDelete', path)
+    formData.append('toDelete', path);
+    formData.append('isDelete', isDelete);
     return fetch('server/crud.php', {
         method: 'POST',
         body: formData
@@ -102,6 +115,7 @@ function updateEditSidebar(res){
         var icon;
         res.bulkRes.ext == null ? icon = 'dir' : icon = res.bulkRes.ext;
         li.innerHTML = icons[icon]+' '+res.bulkRes.name;
+        li.dataset.path = res.bulkRes.path;
     }   
 }
 
@@ -146,10 +160,11 @@ function displayEditInput(parent, path){
     $(parent).append(input);
 }
 
-function updateItemsSideBar(arr){
-    if(QS('.selected') == null){
+function updateItemsSideBar(arr, path){
+    path = path.split('/');
+    if(QS('.selected') == null && path.length == 2){
         QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(arr));
-    } else if(QS('.selected').children.length > 1){
+    } else if(QS('.selected') !== null && QS('.selected').children.length > 1){
         QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(arr));                  
     }        
 }
