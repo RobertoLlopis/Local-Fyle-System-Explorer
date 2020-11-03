@@ -79,7 +79,8 @@ $('#tableBody').on('click submit', e =>{
 
 
 function handleFileUpload(file){
-    if(!file) var file = $('#upload_input').prop('files')[0];   
+    
+    if(!file.name) var file = $('#upload_input').prop('files')[0];   
     var form_data = new FormData();                  
     form_data.append('file', file);
     form_data.append('path', state.currentPath);        
@@ -196,7 +197,7 @@ function displayFolderInput(path, type){
     <tr data-path="${path}">
     <td>
     <div class="d-flex align-items-center justify-content-around pt-2 pb-1">
-        <i class="table-icon"> ${icon}</i>
+        <i class="table-icon pr-2"> ${icon}</i>
         
         <form id="createFolder" class="d-flex flex-column form-container"> 
             <input type="text" name="folderName" placeholder="name" class="creatingFolder">
