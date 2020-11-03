@@ -79,7 +79,13 @@
             </nav>
             <!-- End of Topbar -->
             <!-- Begin Main Content -->
-            <main class="container-fluid d-flex p-0 h-100">
+            <main class="container-fluid d-flex p-0 h-100 main-container">
+                <div class="properties-view hide-properties">
+                    <i class="fas fa-times-circle close-btn mb-4"></i>
+                    <div class="properties-content">
+                        
+                    </div>                   
+                </div>
                 <div id="dir-display-container" class="h-100 p-0">
                     <div class="col-12 p-0 d-flex align-items-center">
                         <div id="breadcrumbs-container" class="col-9 d-flex py-4 pl-4 pr-0">
@@ -152,7 +158,8 @@
     <script src="client/js/crud.js"></script>
     <script src="client/js/preview.js"></script>
     <script src="client/js/dragAndDrop.js"></script>
-    <script src="client/js/breadcrumbUrl.js"></script>    
+    <script src="client/js/breadcrumbUrl.js"></script>  
+    <script src="client/js/propertiesView.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

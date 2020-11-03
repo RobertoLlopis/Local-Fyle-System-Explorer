@@ -1,3 +1,59 @@
+
+.hidden {
+  display: none !important;
+}
+
+
+
+/*-----Properties View---*/
+
+.main-container{
+  position: relative;
+}
+
+.properties-view{
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #F7C7C2;
+  padding: 20px;
+  height: calc(100vh - 80px);
+  width: 40%;
+  transition: all .2s;
+}
+
+.properties-content{
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.properties-content i{
+  font-size: 1.8rem;
+}
+
+.properties-content p:first-child{
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.hide-properties{
+  padding: 0px;
+  width: 0%;
+}
+
+.close-btn{
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+
+/*---------------------*/
+
+
+
 tr {
   cursor: pointer;
 }

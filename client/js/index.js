@@ -221,8 +221,11 @@ function createRow(resource) {
     resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext.slice(0,3);
     //console.log(resource);
     if (resource.name === '.' || resource.name === "..") return '';
-
-    resource.path == 'root/Trash' ? iconClass = 'trash' : iconClass = iconClass;
+    var display = '';
+    if(resource.path == 'root/Trash') {
+        iconClass = 'trash';
+        display = 'hidden';
+    } 
 
     return `
     <tr draggable="true" data-path="${resource.path}">
@@ -232,13 +235,13 @@ function createRow(resource) {
         <td>${convertTimeStampToDate(resource.creation)}</td>
         <td>${convertTimeStampToDate(resource.lastModification)}</td>
         <td>
-            <div class="edit-delete d-flex">
+            <div class="edit-delete d-flex ${display}">
                 <i class="far fa-edit mr-5 edit"></i>
                 <i class="fas fa-trash-alt delete"></i>
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-light btn-icon-split">
+            <a href="#" class="btn btn-light btn-icon-split ${display}">
                 <span class="icon text-gray-600">
                     <i class="fas fa-info-circle"></i>
                 </span>
@@ -265,12 +268,16 @@ function createResourceUl(resourceList) {
 
 function createResourceLi(resource) {
     if (resource.name === '.' || resource.name === "..") return '';
-
-    if (resource.type === 'dir') var icon = icons['folder']
+    var icon = '';
+    
+    if (resource.type === 'dir') icon = icons['folder']
     else {
         var ext = resource.ext;
         var icon = icons[ext];
     };
+    
+    resource.name == 'Trash' ? icon = icons['trash'] : icon = icon;
+
 
     return `<li draggable="true" class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
 }
