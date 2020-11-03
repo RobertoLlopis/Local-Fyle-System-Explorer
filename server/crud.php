@@ -12,8 +12,8 @@ if(isset($_POST['toDelete'])){
 }
 
 
-$newPath = constructNewPath();
-$pathToSend = getPathToSend();
+$newPath = isset($_POST['newPath']) ? $_POST['newPath'] : constructNewPath();
+$pathToSend = isset($_POST['pathToSend']) ? $_POST['pathToSend'] : getPathToSend();
 
 //Rename
 $status = edit($newPath);

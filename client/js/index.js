@@ -17,7 +17,7 @@ function initialize() {
         state.lastResources = resourceList;
         
         updateMainDisplay(state.currentPath, resourceList);
-        QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(1, resourceList));
+        QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(resourceList));
     });
 }
 
@@ -109,8 +109,7 @@ function updateAside(e, resourceList) {
         return;
     };
 
-    let level = Number(e.target.closest('ul').dataset.level) + 1;
-    e.target.insertAdjacentHTML('beforeend', createResourceUl(level, resourceList));
+    e.target.insertAdjacentHTML('beforeend', createResourceUl(resourceList));
 }
 
 function updateMainDisplay(path, resourceList) {
@@ -200,6 +199,7 @@ function closeModal(){
     $('#preview-audio, #preview-video, .preview-img-container, .preview-modal').fadeOut();
     stopAll();
 }
+
 function fetchDirList(path) {
     var formData = new FormData();
     formData.append('path', path);
@@ -217,7 +217,7 @@ function createRow(resource) {
     if (resource.name === '.' || resource.name === "..") return '';
 
     return `
-    <tr data-path="${resource.path}">
+    <tr draggable="true" data-path="${resource.path}">
         <td><i class="table-icon">  ${icons[iconClass]}</i></td>
         <td>${resource.name}</td>
         <td>${resource.size}</td>
@@ -241,10 +241,10 @@ function createRow(resource) {
     `
 }
 
-function createResourceUl(level, resourceList) {
+function createResourceUl(resourceList) {
     var lis = '';
     resourceList.forEach(resource => lis += createResourceLi(resource));
-    return `<ul data-level="${level}" class="level-${level}">
+    return `<ul>
                 ${lis}
             </ul>`
 }
@@ -259,7 +259,7 @@ function createResourceLi(resource) {
         var icon = icons[ext];
     };
 
-    return `<li class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
+    return `<li draggable="true" class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
 }
 function displayErrorMsg(errorString){
     QS('#error-message').textContent = errorString;

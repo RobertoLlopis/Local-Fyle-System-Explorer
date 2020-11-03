@@ -50,7 +50,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Pages Collapse Menu -->
-            <li id="root-li" data-path="root/" class="nav-item">
+            <li id="root-li" data-path="root" class="nav-item">
                 <i class="fas fa-server"></i> <span data-path="root/" data-type="dir">Root</span>
             </li>
         </ul>

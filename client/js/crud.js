@@ -28,7 +28,7 @@ $('#tableBody').on('click submit', e =>{
             deleteRow(toDelete);
             let folderArr = [];
             folderArr.push(newFolder);
-            updateItensSideBar(folderArr);
+            updateItemsSideBar(folderArr);
         });      
     }
 
@@ -146,7 +146,7 @@ function displayEditInput(parent, path){
     $(parent).append(input);
 }
 
-function updateItensSideBar(arr){
+function updateItemsSideBar(arr){
     if(QS('.selected') == null){
         QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(arr));
     } else if(QS('.selected').children.length > 1){
