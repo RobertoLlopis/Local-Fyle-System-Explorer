@@ -23,7 +23,6 @@ function dragEventHandler(e) {
     e.preventDefault();
     if (e.type === 'dragenter'){
     
-        console.log('enter');
         if(e.target.id === 'dir-display-container') {
             dropItem.path = state.currentPath;
             dropItem.tagName = 'TR';
@@ -31,11 +30,8 @@ function dragEventHandler(e) {
         }
 
         var targetParent = e.target.closest('tr') ? e.target.closest('tr') : e.target;
-        console.log(targetParent.draggable);
         dropItem.path = targetParent.dataset.path;
-        dropItem.tagName = targetParent.tagName;
-        console.log(dropItem);
-    
+        dropItem.tagName = targetParent.tagName;    
     }
 }
 
@@ -59,46 +55,51 @@ function dropHandler(e) {
         }).then(res => res.text()).then(text => {
 
             if (dropItem.tagName === dragItem.tagName) {
-               
-                if (dropItem.tagName === 'LI') {
-                    var dirsToUpdate = [dropItem.path.split('/').slice(0, -1).join('/') , dragItem.path.split('/').slice(0, -1).join('/')];
-                    if(dirsToUpdate[0] === dirsToUpdate[1]){ 
-                       updateAsideDir(oneLevelUpPath(dragItem.path));
-                        return;
-                    }
-                    updateAsideDir(oneLevelUpPath(dragItem.path));
-                    updateAsideDir(oneLevelUpPath(dropItem.path));
-                    return;
-                }
-
-                var pathToUpdateDisplay = oneLevelUpPath(dropItem.path);
-                fetchDirList(pathToUpdateDisplay).then(resourceList => 
-                    displayTable(resourceList)
-                );
-
+                handleEqualTags();  
                 return;
             }
 
-            if(dropItem.tagName == 'TR'){
-                var pathToUpdateDisplay = state.currentPath;
-                var pathToUpdateAside = oneLevelUpPath(dragItem.path);
-            } else {
-                var pathToUpdateDisplay = oneLevelUpPath(dragItem.path);
-                var pathToUpdateAside = oneLevelUpPath(dropItem.path);
-            }
-            fetchDirList(pathToUpdateDisplay).then(resourceList => 
-                displayTable(resourceList)
-            );
-            updateAsideDir(pathToUpdateAside);
+            handleNotEqualTags();
             return;
         });
-        return;
     }
 
     //In case it is a file coming from the Operative System
     dataTransfer.effectAllowed = 'move';
     var file = dataTransfer.files[0];
     handleFileUpload(file);
+}
+
+function handleEqualTags(){
+    if (dropItem.tagName === 'LI') {
+        var dirsToUpdate = [dropItem.path.split('/').slice(0, -1).join('/') , dragItem.path.split('/').slice(0, -1).join('/')];
+        if(dirsToUpdate[0] === dirsToUpdate[1]){ 
+           updateAsideDir(oneLevelUpPath(dragItem.path));
+            return;
+        }
+        updateAsideDir(oneLevelUpPath(dragItem.path));
+        updateAsideDir(oneLevelUpPath(dropItem.path));
+        return;
+    }
+
+    var pathToUpdateDisplay = oneLevelUpPath(dropItem.path);
+    fetchDirList(pathToUpdateDisplay).then(resourceList => 
+        displayTable(resourceList)
+    );
+   }
+
+function handleNotEqualTags(){
+    if(dropItem.tagName == 'TR'){
+        var pathToUpdateDisplay = state.currentPath;
+        var pathToUpdateAside = oneLevelUpPath(dragItem.path);
+    } else {
+        var pathToUpdateDisplay = oneLevelUpPath(dragItem.path);
+        var pathToUpdateAside = oneLevelUpPath(dropItem.path);
+    }
+    fetchDirList(pathToUpdateDisplay).then(resourceList => 
+        displayTable(resourceList)
+    );
+    updateAsideDir(pathToUpdateAside);
 }
 
 function oneLevelUpPath(path){
