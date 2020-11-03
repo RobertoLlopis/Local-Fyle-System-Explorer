@@ -151,11 +151,8 @@
     <script src="client/js/search.js"></script>
     <script src="client/js/crud.js"></script>
     <script src="client/js/preview.js"></script>
-<<<<<<< HEAD
     <script src="client/js/dragAndDrop.js"></script>
-=======
     <script src="client/js/breadcrumbUrl.js"></script>    
->>>>>>> trash
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
