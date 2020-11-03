@@ -55,7 +55,10 @@ function handleTableDblClick(e){
         var path = tr.dataset.path;
         //console.log(path);
         if(path.split('/').pop().includes('.')){
-
+            if(path.split('.').pop() === 'csv') {
+                displayCsv(path);
+                return;
+            }
             showModal(path);
         } else {
             fetchDirList(path).then((resourceList) => {
@@ -250,7 +253,6 @@ function createRow(resource) {
 }
 
 function createResourceUl(resourceList) {
-    console.log(resourceList)
     var lis = '';
     resourceList.forEach(resource => lis += createResourceLi(resource));
     if(resourceList.length > 1){
@@ -326,4 +328,52 @@ function putTrashIcon(){
     var child = trash.children[0];
     $(child).remove();
     $(trash).append(icons['trash'] + ' Trash');
+}
+
+function displayCsv(path){
+    var formData = new FormData();
+    formData.append('path', path);
+    fetch('server/display_csv.php', {
+        method:'POST', 
+        body: formData
+    })
+        .then(res => res.text())
+        .then(data => {
+            var csvArray = JSON.parse(data);
+            buildTable(csvArray);
+            $('#directory-table-container').fadeOut();
+            $('#csv-table-container').fadeIn();
+        });
+}
+
+function buildTable(csvArray){
+    var html;
+    csvArray.forEach((row, i) => {
+        if(i == 0) {
+			html += '<thead>';
+			html += '<tr>';
+			row.forEach(colData => {
+				html += '<th>';
+				html += colData;
+				html += '</th>';
+			});
+			html += '</tr>';
+			html += '</thead>';
+			html += '<tbody>';
+		  } else {
+			html += '<tr>';
+			row.forEach(colData => {
+				html += '<td>';
+				html += colData;
+				html += '</td>';
+			});
+			html += '</tr>';
+		  }
+        });
+    html += '</tbody>';
+    $('#csv-table').append(html);
+}
+
+function injectInCsvTable(html){
+    QS('#csv-table').insertAdjacentHTML('beforeend', html);
 }

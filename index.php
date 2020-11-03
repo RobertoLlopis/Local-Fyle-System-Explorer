@@ -102,8 +102,8 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <div id="directory-table-container" class="table-responsive">
+                                <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Type</th>
@@ -118,6 +118,13 @@
                                     <tbody id="tableBody">
                                         
                                     </tbody>
+                                </table>
+                            </div>
+                            <div id="csv-table-container" class="table-responsive">
+                                <table id="csv-table"class="table table-bordered" width="100%" cellspacing="0">
+                                    
+                                        
+                    
                                 </table>
                             </div>
                         </div>
@@ -152,7 +159,7 @@
     <script src="client/js/crud.js"></script>
     <script src="client/js/preview.js"></script>
     <script src="client/js/dragAndDrop.js"></script>
-    <script src="client/js/breadcrumbUrl.js"></script>    
+    <script src="client/js/breadcrumbUrl.js"></script>  
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
