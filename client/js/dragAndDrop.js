@@ -43,12 +43,15 @@ function dropHandler(e) {
     if (dataTransfer.types.length === 0) {
 
         var formData = new FormData();
+
         var dragItemName = dragItem.path.split('/').pop();
         var newPath = dropItem.path + '/' + dragItemName;
+
         formData.append('path', dragItem.path);
         formData.append('pathToSend', dropItem.path);
         formData.append('newPath', newPath);
         formData.append('newName', dragItemName);
+
         fetch('server/crud.php', {
             method: 'POST',
             body: formData
@@ -62,6 +65,7 @@ function dropHandler(e) {
             handleNotEqualTags();
             return;
         });
+        return;
     }
 
     //In case it is a file coming from the Operative System
@@ -72,6 +76,7 @@ function dropHandler(e) {
 
 function handleEqualTags(){
     if (dropItem.tagName === 'LI') {
+
         var dirsToUpdate = [dropItem.path.split('/').slice(0, -1).join('/') , dragItem.path.split('/').slice(0, -1).join('/')];
         if(dirsToUpdate[0] === dirsToUpdate[1]){ 
            updateAsideDir(oneLevelUpPath(dragItem.path));
@@ -89,6 +94,7 @@ function handleEqualTags(){
    }
 
 function handleNotEqualTags(){
+
     if(dropItem.tagName == 'TR'){
         var pathToUpdateDisplay = state.currentPath;
         var pathToUpdateAside = oneLevelUpPath(dragItem.path);
@@ -96,6 +102,7 @@ function handleNotEqualTags(){
         var pathToUpdateDisplay = oneLevelUpPath(dragItem.path);
         var pathToUpdateAside = oneLevelUpPath(dropItem.path);
     }
+
     fetchDirList(pathToUpdateDisplay).then(resourceList => 
         displayTable(resourceList)
     );

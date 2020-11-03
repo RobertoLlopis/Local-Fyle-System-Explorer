@@ -72,7 +72,6 @@ function handleTableDblClick(e){
 
 function handleAsideClick(e) {
     if (e.target.dataset.type === 'dir') {
-        console.log('wtf')
         var path = e.target.dataset.path;
         fetchDirList(path).then((resourceList) => {
             
