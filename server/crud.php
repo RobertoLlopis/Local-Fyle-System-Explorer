@@ -21,6 +21,12 @@ if(isset($_POST['isDelete']) && $_POST['isDelete'] == true){
     exit;
 }
 
+
+if(isset($_POST['empty'])){
+    $res = deleteAll($_POST['path']);
+    exit;
+}
+
 $newPath = isset($_POST['newPath']) ? $_POST['newPath'] : constructNewPath();
 $pathToSend = isset($_POST['pathToSend']) ? $_POST['pathToSend'] : getPathToSend();
 
@@ -99,3 +105,11 @@ function moveToTrash(){
     $obj = gatherResourceData($fileFolder, 'root/Trash');
     return $obj;
 }
+
+
+function deleteAll($target) {
+    $files = glob( $target.'/*'); 
+    foreach( $files as $file ){
+        delete_files( $file );      
+    }    
+} 

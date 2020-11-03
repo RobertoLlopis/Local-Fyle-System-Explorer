@@ -10,6 +10,49 @@ $('#breadcrumbs-container').on('click', function(e){
 })
 
 
+$('.btn-clear-trash').on('click', function(){
+    var empty = true;
+    emptyTrash('root/Trash', empty).then(res => console.log(res));
+})
+
+
+
+function emptyTrash(path, empty){
+    var formData = new FormData();
+    formData.append('path', path);
+    formData.append('empty', empty);
+    return fetch('server/crud.php', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.text());
+}
+
+
+
+/*-----Mutation Observer Trash Button-------------------------*/
+const crumbOb = document.querySelector('#breadcrumbs-container');
+const observer = new MutationObserver(mutations => {
+    handleCleanTrashBtnDisplay(mutations);
+});
+
+observer.observe(crumbOb, {
+    childList: true,
+})
+
+function handleCleanTrashBtnDisplay(mutations){
+    var trash = document.querySelector('.clean-trash');
+    var btnAdd = document.querySelector('.btn-add-new');
+    var isTrash = mutations[1].addedNodes[0].children[0].attributes[0].nodeValue;
+    if(isTrash == 'root/Trash'){        
+        trash.classList.remove('hidden');
+        btnAdd.classList.add('hidden');
+    } else{
+        trash.classList.add('hidden');
+        btnAdd.classList.remove('hidden');
+    }
+}
+
+
 function updateSelectedStyleBread(path){
     var li = document.querySelector(`li[data-path="${path}"]`);
     removeSelected();

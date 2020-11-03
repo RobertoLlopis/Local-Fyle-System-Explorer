@@ -79,7 +79,7 @@
             </nav>
             <!-- End of Topbar -->
             <!-- Begin Main Content -->
-            <main class="container-fluid d-flex p-0 h-100 main-container">
+            <main class="container-fluid d-flex p-0 h-100 main-container">               
                 <div class="properties-view hide-properties">
                     <i class="fas fa-times-circle close-btn mb-4"></i>
                     <div class="properties-content">
@@ -92,7 +92,13 @@
 
                         </div>
                         <div id="add-new-button-container" class="col-3 p-0 d-flex justify-content-center">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="clean-trash hidden" data-path="root/Trash">
+                                <button class="btn btn-primary btn-clear-trash">
+                                <i class="fas fa-trash-alt"></i>
+                                    Clean Trash
+                                </button>
+                            </div>
+                            <button class="btn btn-primary dropdown-toggle btn-add-new" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-plus"></i> Add new
                             </button>
                             <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton">

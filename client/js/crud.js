@@ -218,3 +218,4 @@ function displayFolderInput(path, type){
 function deleteRow(element){
     $(element).remove();
 }
+

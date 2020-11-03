@@ -18,7 +18,7 @@ function initialize() {
         
         updateMainDisplay(state.currentPath, resourceList);
         QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(resourceList));
-        putTrashIcon()
+        putTrashIcon();
     });
 }
 
@@ -161,7 +161,8 @@ function setBreadCrumbPath(path) {
         if (i >= path.length - 1) {
             var crumb = $(
                 `<p>
-                            <span data-path="${breadPath}" class="crumbPath">${item}</span>                              
+                            <span data-path="${breadPath}" class="crumbPath">${item}</span> 
+                            <input type="text" class="trackPath" style="display: none" value="${breadPath}">                             
                         </p>
                     `)
         } else {
@@ -169,7 +170,8 @@ function setBreadCrumbPath(path) {
                 `
                     <p>
                         <span data-path="${breadPath}" class="crumbPath">${item}</span>                  
-                        <span>&nbsp;>&nbsp;</span>                
+                        <span>&nbsp;>&nbsp;</span>
+                        <input type="text" class="trackPath" style="display: none" value="${breadPath}">                    
                     </p>
                 `)
         }
