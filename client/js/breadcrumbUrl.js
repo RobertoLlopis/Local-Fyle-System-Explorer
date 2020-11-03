@@ -12,7 +12,10 @@ $('#breadcrumbs-container').on('click', function(e){
 
 $('.btn-clear-trash').on('click', function(){
     var empty = true;
-    emptyTrash('root/Trash', empty).then(res => console.log(res));
+    emptyTrash('root/Trash', empty).then(res => {
+        $('#tableBody').empty();
+        $('li[data-path="root/Trash"] ul').remove();
+    });
 })
 
 
