@@ -20,19 +20,42 @@ $('.btn-clear-trash').on('click', function(){
 
 
 
-function emptyTrash(path, empty){
-    var formData = new FormData();
-    formData.append('path', path);
-    formData.append('empty', empty);
-    return fetch('server/crud.php', {
-        method: 'POST',
-        body: formData
-    }).then(res => res.text());
+/*-----------------*/
+/*----Functions----*/
+/*-----------------*/
+
+
+/*-----Breadcrumb functions-----------*/
+function updateSelectedStyleBread(path){
+    var li = document.querySelector(`li[data-path="${path}"]`);
+    removeSelected();
+    if(li !== null){
+        li.classList.add('.selected');
+        selected(li);
+    }    
 }
 
+function getBreadPath(e){
+    var target = e.target;
+    var text = target.textContent;
+    var paths = [...document.querySelectorAll('.crumbPath')]
+    var path = '';
+    for(let i = 0; i < paths.length; i++){
+        if(paths[i].textContent == text){
+            path += paths[i].textContent
+            break;
+        }
+        path += paths[i].textContent+'/';
+    }
+    return path;
+}
 
+/*-----------------------------------*/
+/*-----Trash Can Functions-----------*/
+/*-----------------------------------*/
 
 /*-----Mutation Observer Trash Button-------------------------*/
+//**This function monitors every time that the breadcrumb changes its value
 const crumbOb = document.querySelector('#breadcrumbs-container');
 const observer = new MutationObserver(mutations => {
     handleCleanTrashBtnDisplay(mutations);
@@ -55,29 +78,12 @@ function handleCleanTrashBtnDisplay(mutations){
     }
 }
 
-
-function updateSelectedStyleBread(path){
-    var li = document.querySelector(`li[data-path="${path}"]`);
-    removeSelected();
-    if(li !== null){
-        li.classList.add('.selected');
-        selected(li);
-    }    
-}
-
-
-
-function getBreadPath(e){
-    var target = e.target;
-    var text = target.textContent;
-    var paths = [...document.querySelectorAll('.crumbPath')]
-    var path = '';
-    for(let i = 0; i < paths.length; i++){
-        if(paths[i].textContent == text){
-            path += paths[i].textContent
-            break;
-        }
-        path += paths[i].textContent+'/';
-    }
-    return path;
+function emptyTrash(path, empty){
+    var formData = new FormData();
+    formData.append('path', path);
+    formData.append('empty', empty);
+    return fetch('server/crud.php', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.text());
 }

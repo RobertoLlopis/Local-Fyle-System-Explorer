@@ -1,8 +1,7 @@
 <?php
 include 'utils.php';
 
-// Construct new path
-
+// Check if file to delete is inside trash can
 if (isset($_POST['toTrash']) && $_POST['toTrash'] == 'false') {
     $deleteFile = $_POST['toDelete'];
     $res = delete_files($deleteFile);
@@ -11,7 +10,7 @@ if (isset($_POST['toTrash']) && $_POST['toTrash'] == 'false') {
 }
 
 
-
+// Check if file to delete is outside trash can
 if (isset($_POST['toTrash']) && $_POST['toTrash'] == true) {
     $obj = moveToTrash();
     $res = new stdClass;
@@ -21,11 +20,13 @@ if (isset($_POST['toTrash']) && $_POST['toTrash'] == true) {
     exit;
 }
 
-
+// Empty trash
 if (isset($_POST['empty'])) {
     $res = deleteAll($_POST['path']);
     exit;
 }
+
+
 
 $newPath = isset($_POST['newPath']) ? $_POST['newPath'] : constructNewPath();
 $pathToSend = isset($_POST['pathToSend']) ? $_POST['pathToSend'] : getPathToSend();
@@ -74,6 +75,21 @@ function getPathToSend()
 }
 
 
+/*----------------------------*/
+/*----Trash Can Functions-----*/
+/*----------------------------*/
+function moveToTrash()
+{
+    $toDelete = $_POST['toDelete'];
+    $newPath = explode("/", $_POST['toDelete']);
+    $fileFolder = $newPath[count($newPath) - 1];
+    $path = 'root/Trash/' . $fileFolder;
+    edit($toDelete, $path);
+    $obj = gatherResourceData($fileFolder, 'root/Trash');
+    return $obj;
+}
+
+
 function delete_files($target)
 {
     if (is_dir($target)) {
@@ -88,23 +104,10 @@ function delete_files($target)
         $res = true;
         is_file($target) ? unlink($target) : $res = 'not a file';
         if ($res) {
-            //unlink($target);
             unlink($_SERVER['DOCUMENT_ROOT'] . '/server'.'/' . $target);
         }
         return $res;
     }
-}
-
-/*----Trash Functions-----*/
-function moveToTrash()
-{
-    $toDelete = $_POST['toDelete'];
-    $newPath = explode("/", $_POST['toDelete']);
-    $fileFolder = $newPath[count($newPath) - 1];
-    $path = 'root/Trash/' . $fileFolder;
-    edit($toDelete, $path);
-    $obj = gatherResourceData($fileFolder, 'root/Trash');
-    return $obj;
 }
 
 
