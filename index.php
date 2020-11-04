@@ -125,9 +125,6 @@
                             </div>
                             <div id="csv-table-container" class="table-responsive">
                                 <table id="csv-table"class="table table-bordered" width="100%" cellspacing="0">
-                                    
-                                        
-                    
                                 </table>
                             </div>
                         </div>

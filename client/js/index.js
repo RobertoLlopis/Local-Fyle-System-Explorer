@@ -377,7 +377,8 @@ function buildTable(csvArray){
 
 function goBackFromCsv(){
     updateMainDisplay(state.currentPath, state.lastResources);
-
+    
+    $('#csv-table').empty();
     $('#csv-table-container').fadeOut();
     $('#go-back-csv').hide();
     $('#directory-table-container, #add-new-button-container .dropdown-toggle').fadeIn();
