@@ -253,6 +253,15 @@ div.dropdown-item {
   cursor: pointer;
   width: 12rem;
 }
+
+#csv-table-container{
+  display: none;
+}
+
+#go-back-csv{
+  display: none;
+}
+
 .slide-out-top {
   -webkit-animation: slide-out-top 0.8s;
   animation: slide-out-top 0.8s;

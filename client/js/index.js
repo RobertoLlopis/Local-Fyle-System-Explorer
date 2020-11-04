@@ -1,6 +1,6 @@
 var state = {
     currentPath: 'root',
-    availableExtensions : {audio: ['mp3'], video: ['mp4'], image: ['jpg', 'png', 'svg']}
+    availableExtensions: { audio: ['mp3'], video: ['mp4'], image: ['jpg', 'png', 'svg'] }
 };
 
 $('#properties-display-container').hide();
@@ -13,9 +13,9 @@ initialize();
 
 function initialize() {
     fetchDirList(state.currentPath).then((resourceList) => {
-        
+
         state.lastResources = resourceList;
-        
+
         updateMainDisplay(state.currentPath, resourceList);
         QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(resourceList));
         putTrashIcon();
@@ -46,28 +46,31 @@ $('ul.sidebar').click(function (e) {
 
 $('#dataTable').on('dblclick', handleTableDblClick);
 $('.preview-modal').click(handleModalClick);
+$('#go-back-csv').click(goBackFromCsv);
 
-
-function handleTableDblClick(e){
-    if(e.target.closest('tr[data-path]')){
+function handleTableDblClick(e) {
+    if (e.target.closest('tr[data-path]')) {
 
         var tr = e.target.closest('tr[data-path]');
         var path = tr.dataset.path;
         //console.log(path);
-        if(path.split('/').pop().includes('.')){
-
+        if (path.split('/').pop().includes('.')) {
+            if (path.split('.').pop() === 'csv') {
+                displayCsv(path);
+                return;
+            }
             showModal(path);
         } else {
             fetchDirList(path).then((resourceList) => {
-            
+
                 state.lastResources = resourceList;
                 state.currentPath = path;
-                
+
                 updateMainDisplay(path, resourceList);
                 updateSelectedStyle(e);
             });
         }
-        
+
     }
 }
 
@@ -76,10 +79,10 @@ function handleAsideClick(e) {
         var path = e.target.dataset.path;
         console.log(path);
         fetchDirList(path).then((resourceList) => {
-            
+
             state.lastResources = resourceList;
             state.currentPath = path;
-            
+
             updateMainDisplay(path, resourceList);
             updateSelectedStyle(e);
         });
@@ -93,10 +96,10 @@ function handleAsideDblClick(e) {
 
         fetchDirList(path)
             .then((resourceList) => {
-                
+
                 state.lastResources = resourceList;
                 state.currentPath = path;
-                
+
                 updateAside(e, resourceList);
                 updateMainDisplay(path, resourceList);
                 updateSelectedStyle(e);
@@ -106,7 +109,7 @@ function handleAsideDblClick(e) {
 
 function updateAside(e, resourceList) {
     var lastChild = e.target.lastElementChild;
-    if(lastChild == null){
+    if (lastChild == null) {
         return;
     }
     if (lastChild.tagName == 'UL') {
@@ -124,10 +127,10 @@ function updateMainDisplay(path, resourceList) {
 
 function updateSelectedStyle(e) {
     removeSelected();
-    if(e.target.textContent !== 'Root'){
+    if (e.target.textContent !== 'Root') {
         e.target.classList.add('selected');
         selected(e.target);
-    }    
+    }
 }
 
 function selected(element) {
@@ -182,29 +185,29 @@ function setBreadCrumbPath(path) {
 
 
 
-function showModal(path){
-    var ext = path.split('.').pop().slice(0,3);
-    
-    if(state.availableExtensions.audio.includes(ext)) {
+function showModal(path) {
+    var ext = path.split('.').pop().slice(0, 3);
+
+    if (state.availableExtensions.audio.includes(ext)) {
         $('#preview-audio source').attr('src', 'server/' + path);
         QS('#preview-audio').load();
         $('#preview-audio').show();
     };
-    if(state.availableExtensions.video.includes(ext)) {
+    if (state.availableExtensions.video.includes(ext)) {
         $('#preview-video source').attr('src', 'server/' + path);
         QS('#preview-video').load();
         $('#preview-video').show();
     }
-    if(state.availableExtensions.image.includes(ext)){
+    if (state.availableExtensions.image.includes(ext)) {
         $('#preview-img').attr('src', 'server/' + path);
         $('.preview-img-container').show();
     }
     $('.preview-modal').fadeIn();
 }
-function handleModalClick(e){
-    if(e.target === e.currentTarget || e.target.closest('.preview-close-button')) closeModal();
+function handleModalClick(e) {
+    if (e.target === e.currentTarget || e.target.closest('.preview-close-button')) closeModal();
 }
-function closeModal(){
+function closeModal() {
     $('#preview-audio, #preview-video, .preview-img-container, .preview-modal').fadeOut();
     stopAll();
 }
@@ -220,16 +223,16 @@ function fetchDirList(path) {
 
 function createRow(resource) {
     var iconClass = '';
-    resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext.slice(0,3);
+    resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext.slice(0, 3);
     //console.log(resource);
     if (resource.name === '.' || resource.name === "..") return '';
     var display = '';
-    if(resource.path == 'root/Trash') {
+    if (resource.path == 'root/Trash') {
         iconClass = 'trash';
         display = 'hidden';
-    } 
+    }
 
-    if(resource.name === resource.ext){
+    if (resource.name === resource.ext) {
         iconClass = 'folder';
     }
 
@@ -259,10 +262,9 @@ function createRow(resource) {
 }
 
 function createResourceUl(resourceList) {
-    console.log(resourceList)
     var lis = '';
     resourceList.forEach(resource => lis += createResourceLi(resource));
-    if(resourceList.length > 1){
+    if (resourceList.length > 1) {
         return `<ul class="list-sidebar-item">
                     ${lis}
                 </ul>`
@@ -275,26 +277,26 @@ function createResourceUl(resourceList) {
 function createResourceLi(resource) {
     if (resource.name === '.' || resource.name === "..") return '';
     var icon = '';
-    
+
     if (resource.type === 'dir') icon = icons['folder']
     else {
         var ext = resource.ext;
         var icon = icons[ext];
     };
 
-    
+
     resource.name == 'Trash' ? icon = icons['trash'] : icon = icon;
-    
-    if(resource.name === resource.ext){
+
+    if (resource.name === resource.ext) {
         icon = icons['folder'];
     }
 
     return `<li draggable="true" class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
 }
-function displayErrorMsg(errorString){
+function displayErrorMsg(errorString) {
     QS('#error-message').textContent = errorString;
     QS('#error-card').classList.add('pop-up');
-    setTimeout(()=> QS('#error-card').classList.remove('pop-up'), 2000);
+    setTimeout(() => QS('#error-card').classList.remove('pop-up'), 2000);
 }
 function QS(selector) {
     return document.querySelector(selector);
@@ -310,7 +312,7 @@ function initAnimation() {
     setTimeout(() => { QS('#logo-container').classList.add('final-logo-heigth') }, 500);
 }
 
-function convertTimeStampToDate(stamp){
+function convertTimeStampToDate(stamp) {
     var date = new Date(stamp * 1000);
     var day = date.getDate();
     var month = (date.getMonth() + 1).toString().slice(-2);
@@ -319,7 +321,7 @@ function convertTimeStampToDate(stamp){
     return formattedTime;
 }
 
-function fetchDebug(path){
+function fetchDebug(path) {
     var formData = new FormData();
     formData.append('path', path);
     return fetch('server/navigation.php', {
@@ -337,10 +339,65 @@ function stopAll() {
 }
 
 
-function putTrashIcon(){
+function putTrashIcon() {
     var trash = $(`li[data-path="root/Trash"]`);
     $(trash).text('');
     var child = trash.children[0];
     $(child).remove();
     $(trash).append(icons['trash'] + ' Trash');
+}
+
+function displayCsv(path) {
+    var formData = new FormData();
+    formData.append('path', path);
+    fetch('server/display_csv.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => res.text())
+        .then(data => {
+            var csvArray = JSON.parse(data);
+            buildTable(csvArray);
+            $('#directory-table-container').fadeOut();
+            $('#add-new-button-container .dropdown-toggle').hide();
+            $('#csv-table-container, #go-back-csv').fadeIn();
+        });
+}
+
+function buildTable(csvArray) {
+    var html;
+    csvArray.forEach((row, i) => {
+        if (i == 0) {
+            html += '<thead>';
+            html += '<tr>';
+            row.forEach(colData => {
+                html += '<th>';
+                html += colData;
+                html += '</th>';
+            });
+            html += '</tr>';
+            html += '</thead>';
+            html += '<tbody>';
+        } else {
+            html += '<tr>';
+            row.forEach(colData => {
+                html += '<td>';
+                html += colData;
+                html += '</td>';
+            });
+            html += '</tr>';
+        }
+    });
+    html += '</tbody>';
+    $('#csv-table').append(html);
+}
+
+function goBackFromCsv() {
+    updateMainDisplay(state.currentPath, state.lastResources);
+
+    $('#csv-table').empty();
+    $('#csv-table-container').fadeOut();
+    $('#go-back-csv').hide();
+    $('#directory-table-container, #add-new-button-container .dropdown-toggle').fadeIn();
+
 }

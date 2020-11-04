@@ -79,12 +79,12 @@
             </nav>
             <!-- End of Topbar -->
             <!-- Begin Main Content -->
-            <main class="container-fluid d-flex p-0 h-100 main-container">               
+            <main class="container-fluid d-flex p-0 h-100 main-container">
                 <div class="properties-view hide-properties">
                     <i class="fas fa-times-circle close-btn mb-4"></i>
                     <div class="properties-content">
-                        
-                    </div>                   
+
+                    </div>
                 </div>
                 <div id="dir-display-container" class="h-100 p-0">
                     <div class="col-12 p-0 d-flex align-items-center">
@@ -94,7 +94,7 @@
                         <div id="add-new-button-container" class="col-3 p-0 d-flex justify-content-center">
                             <div class="clean-trash hidden" data-path="root/Trash">
                                 <button class="btn btn-primary btn-clear-trash">
-                                <i class="fas fa-trash-alt"></i>
+                                    <i class="fas fa-trash-alt"></i>
                                     Clean Trash
                                 </button>
                             </div>
@@ -110,12 +110,15 @@
                                 <a class="dropdown-item file-create" href="#"><i class="far fa-file"></i>&nbsp;&nbsp;New File</a>
                                 <input id type="file" style="display:none">
                             </div>
+                            <button id="go-back-csv" type="button" class="btn btn-primary">
+                                Go Back <i class="fas fa-long-arrow-alt-left"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <div id="directory-table-container" class="table-responsive">
+                                <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
                                     <thead>
                                         <tr>
                                             <th>Type</th>
@@ -128,8 +131,12 @@
                                         </tr>
                                     </thead>
                                     <tbody id="tableBody">
-                                        
+
                                     </tbody>
+                                </table>
+                            </div>
+                            <div id="csv-table-container" class="table-responsive">
+                                <table id="csv-table" class="table table-bordered" width="100%" cellspacing="0">
                                 </table>
                             </div>
                         </div>
@@ -164,7 +171,7 @@
     <script src="client/js/crud.js"></script>
     <script src="client/js/preview.js"></script>
     <script src="client/js/dragAndDrop.js"></script>
-    <script src="client/js/breadcrumbUrl.js"></script>  
+    <script src="client/js/breadcrumbUrl.js"></script>
     <script src="client/js/propertiesView.js"></script>
     <!-- Bootstrap core JavaScript-->
     <script src="client/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
