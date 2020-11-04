@@ -3,10 +3,10 @@ include 'utils.php';
 
 // Construct new path
 
-if (isset($_POST['toTrash']) && $_POST['toTrash'] == false) {
+if (isset($_POST['toTrash']) && $_POST['toTrash'] == 'false') {
     $deleteFile = $_POST['toDelete'];
     $res = delete_files($deleteFile);
-    echo json_encode($deleteFile);
+    echo json_encode($res);
     exit;
 }
 
@@ -85,12 +85,11 @@ function delete_files($target)
 
         rmdir($target);
     } else {
-        //$target = substr($target, 0, -1);
         $res = true;
         is_file($target) ? unlink($target) : $res = 'not a file';
         if ($res) {
             //unlink($target);
-            unlink($_SERVER['DOCUMENT_ROOT'] . '\/server/' . $target);
+            unlink($_SERVER['DOCUMENT_ROOT'] . '/server'.'/' . $target);
         }
         return $res;
     }

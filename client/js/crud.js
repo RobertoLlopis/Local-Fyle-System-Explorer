@@ -56,9 +56,12 @@ $('#tableBody').on('click submit', e => {
 
 
     if ($(target).hasClass('delete') && $('.crumbPath').data('path') !== "root/Trash") {
+        console.log($('.crumbPath').data('path'));
         let row = $(target).parent().parent().parent(); //$(target).closest('tr[data-path]')
         let path = $(row).data('path');
-        deletePath(path, true).then((res) => {
+        deletePath(path, true).then(text => {
+            var res = JSON.parse(text);
+            console.log(text);
             var arr = [];
             arr.push(res.bulkRes);
             var toChange = res.bulkRes.path;
@@ -70,9 +73,7 @@ $('#tableBody').on('click submit', e => {
     } else if ($(target).hasClass('delete')) {
         let row = $(target).parent().parent().parent();
         let path = $(row).data('path');
-        console.log(path);
-        deletePath(path, false).then((res) => {
-            //console.log(res);
+        deletePath(path, 'false').then((res) => {
             deleteRow(row);
             var li = QS(`li[data-path="${path}"]`);
             $(li).remove();
