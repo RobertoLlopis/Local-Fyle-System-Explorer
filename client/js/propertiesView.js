@@ -33,7 +33,7 @@ function fillPropertiesContent(res){
     res.ext == '' ? icon = 'dir' : icon = res.ext;
     return `
         <div class="title">
-        <div class="icon">
+        <div class="icon icon-properties" style="text-align: center;">
             ${icons[icon]}
         </div>
         <h4>${res.name}</h4>
@@ -49,11 +49,12 @@ function fillPropertiesContent(res){
             </div>
             <div class="d-flex modification-date">
                 <p class="mr-2">Modified: </p>
-                <p>${res.creaTime}</p>
+                <p>${res.modTime}</p>
+               
             </div>
             <div class="d-flex creation-date">
-                <p class="mr-2" >Modified: </p>
-                <p>${res.modTime}</p>
+                <p class="mr-2" >Created: </p>
+                <p>${res.creaTime}</p>
             </div>                        
         </div> `;
 }

@@ -229,6 +229,10 @@ function createRow(resource) {
         display = 'hidden';
     } 
 
+    if(resource.name === resource.ext){
+        iconClass = 'folder';
+    }
+
     return `
     <tr draggable="true" data-path="${resource.path}">
         <td><i class="table-icon">  ${icons[iconClass]}</i></td>
@@ -277,9 +281,13 @@ function createResourceLi(resource) {
         var ext = resource.ext;
         var icon = icons[ext];
     };
+
     
     resource.name == 'Trash' ? icon = icons['trash'] : icon = icon;
-
+    
+    if(resource.name === resource.ext){
+        icon = icons['folder'];
+    }
 
     return `<li draggable="true" class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
 }

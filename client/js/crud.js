@@ -24,12 +24,13 @@ $('#tableBody').on('click submit', e =>{
         let form = document.getElementById('createFolder');
         createFolder(form).then((newFolder) =>{
             console.log(newFolder);
-            displayFoldernTable(newFolder)
-            console.log(newFolder);
+            displayFoldernTable(newFolder)            
             var toDelete = $(target).parent().parent().parent().parent();
             deleteRow(toDelete);
             let folderArr = [];
             folderArr.push(newFolder);
+            console.log(newFolder);
+            console.log(folderArr);
             updateItemsSideBar(folderArr, newFolder.path);
         });      
     }
@@ -58,6 +59,10 @@ $('#tableBody').on('click submit', e =>{
         let row = $(target).parent().parent().parent();
         let path = $(row).data('path');        
         deletePath(path, true).then((res) =>{
+            var arr = [];
+            arr.push(res.bulkRes);
+            var toChange = res.bulkRes.path;
+            updateItemsSideBar(arr, toChange)
             deleteRow(row);
             var li = QS(`li[data-path="${path}"]`);
             $(li).remove();
@@ -106,7 +111,7 @@ function deletePath(path, isDelete){
     return fetch('server/crud.php', {
         method: 'POST',
         body: formData
-    }).then(res => res.text());
+    }).then(res => res.json());
 }
 
 
@@ -167,7 +172,9 @@ function updateItemsSideBar(arr, path){
         QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(arr));
     } else if(QS('.selected') !== null && QS('.selected').children.length > 1){
         QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(arr));                  
-    }        
+    }else if(path[1] == "Trash" && $('li[data-path="root/Trash"]')[0].children[1] !== undefined){
+        $('li[data-path="root/Trash"]')[0].children[1].insertAdjacentHTML('beforeend', createResourceUl(arr))
+    }
 }
 
 function displayFoldernTable(folder){
