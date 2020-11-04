@@ -250,12 +250,12 @@ function createRow(resource) {
             </div>
         </td>
         <td>
-            <a href="#" class="btn btn-light btn-icon-split ${display}">
+            <button class="btn btn-light btn-icon-split ${display}">
                 <span class="icon text-gray-600">
                     <i class="fas fa-info-circle"></i>
                 </span>
                 <span class="text">Info</span>
-            </a>
+            </button>
         </td>
     </tr>
     `
