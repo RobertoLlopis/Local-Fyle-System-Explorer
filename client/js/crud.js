@@ -111,7 +111,7 @@ function deletePath(path, isDelete){
     return fetch('server/crud.php', {
         method: 'POST',
         body: formData
-    }).then(res => res.json());
+    }).then(res => res.text());
 }
 
 

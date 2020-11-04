@@ -72,6 +72,7 @@ function getPathToSend(){
 
 
 function delete_files($target) {
+    echo $target;
     if(is_dir($target)){
         $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
 
@@ -82,14 +83,13 @@ function delete_files($target) {
         rmdir( $target );
         
     } else{
-        //$target = substr($target, 0, -1);
-        $res = true;
-        is_file($target) ? unlink( $target ) : $res = 'not a file';
-        if($res){
+        //$res = true;
+        //is_file($target) ? unlink( $target ) : $res = 'not a file';
+        //if($res){
             //unlink($target);
-            unlink($_SERVER['DOCUMENT_ROOT'].'\/server/'. $target);
-        }        
-        return $res;
+        unlink($_SERVER['DOCUMENT_ROOT'].'\/server/'. $target);
+        //}        
+        //return $res;
     }
 
     
