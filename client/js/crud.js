@@ -1,7 +1,7 @@
-$('#add-new-button-container').on('click', (e) =>{
+$('#add-new-button-container').on('click', (e) => {
     let target = e.target;
     let path = $('#breadcrumbs-container span').data('path');
-    if($(target).hasClass('folder-create') || $(target).hasClass('file-create')){
+    if ($(target).hasClass('folder-create') || $(target).hasClass('file-create')) {
         let type = '';
         $(target).hasClass('folder-create') ? type = 'Folder' : type = 'File';
         displayFolderInput(path, type);
@@ -11,20 +11,20 @@ $('#upload_input').change(handleFileUpload);
 
 
 
-$('#tableBody').on('click submit', e =>{
+$('#tableBody').on('click submit', e => {
     e.preventDefault();
     let target = e.target;
-    if($(target).hasClass('btn-cancel')){
+    if ($(target).hasClass('btn-cancel')) {
         var toDelete = $(target).parent().parent().parent().parent();
         deleteRow(toDelete);
     }
 
 
-    if($(target).hasClass('btn-create-folder')){
+    if ($(target).hasClass('btn-create-folder')) {
         let form = document.getElementById('createFolder');
-        createFolder(form).then((newFolder) =>{
+        createFolder(form).then((newFolder) => {
             console.log(newFolder);
-            displayFoldernTable(newFolder)            
+            displayFoldernTable(newFolder)
             var toDelete = $(target).parent().parent().parent().parent();
             deleteRow(toDelete);
             let folderArr = [];
@@ -32,16 +32,16 @@ $('#tableBody').on('click submit', e =>{
             console.log(newFolder);
             console.log(folderArr);
             updateItemsSideBar(folderArr, newFolder.path);
-        });      
+        });
     }
 
-    if($(target).hasClass('edit')){
+    if ($(target).hasClass('edit')) {
         var parent = target.parentNode.parentNode.parentNode;
         var path = parent.getAttribute('data-path');
         displayEditInput($(parent), path);
     }
 
-    if($(target).hasClass('btn-edit-folder')){
+    if ($(target).hasClass('btn-edit-folder')) {
         let form = document.getElementById('editFolder');
         edit(form).then(res => {
             console.log(res);
@@ -50,15 +50,15 @@ $('#tableBody').on('click submit', e =>{
         });
     }
 
-    if($(target).hasClass('btn-cancel-edit')){
+    if ($(target).hasClass('btn-cancel-edit')) {
         canceledit(target);
     }
 
 
-    if($(target).hasClass('delete') && $('.crumbPath').data('path') !== "root/Trash"){
-        let row = $(target).parent().parent().parent();
-        let path = $(row).data('path');        
-        deletePath(path, true).then((res) =>{
+    if ($(target).hasClass('delete') && $('.crumbPath').data('path') !== "root/Trash") {
+        let row = $(target).parent().parent().parent(); //$(target).closest('tr[data-path]')
+        let path = $(row).data('path');
+        deletePath(path, true).then((res) => {
             var arr = [];
             arr.push(res.bulkRes);
             var toChange = res.bulkRes.path;
@@ -67,12 +67,12 @@ $('#tableBody').on('click submit', e =>{
             var li = QS(`li[data-path="${path}"]`);
             $(li).remove();
         });
-    } else if($(target).hasClass('delete')){
+    } else if ($(target).hasClass('delete')) {
         let row = $(target).parent().parent().parent();
-        let path = $(row).data('path');   
-        console.log(path);     
-        deletePath(path, 'wtf').then((res) =>{
-            console.log(res);
+        let path = $(row).data('path');
+        console.log(path);
+        deletePath(path, false).then((res) => {
+            //console.log(res);
             deleteRow(row);
             var li = QS(`li[data-path="${path}"]`);
             $(li).remove();
@@ -83,20 +83,20 @@ $('#tableBody').on('click submit', e =>{
 
 
 
-function handleFileUpload(file){
-    
-    if(!file.name) var file = $('#upload_input').prop('files')[0];   
-    var form_data = new FormData();                  
+function handleFileUpload(file) {
+
+    if (!file.name) var file = $('#upload_input').prop('files')[0];
+    var form_data = new FormData();
     form_data.append('file', file);
-    form_data.append('path', state.currentPath);        
-    fetch('server/upload.php', {method: 'post', body: form_data}).then(res => res.text())
-    .then(text => {
-        var newResource = JSON.parse(text);
-        QS('tbody').insertAdjacentHTML('beforeend', createRow(newResource));
-    });                   
+    form_data.append('path', state.currentPath);
+    fetch('server/upload.php', { method: 'post', body: form_data }).then(res => res.text())
+        .then(text => {
+            var newResource = JSON.parse(text);
+            QS('tbody').insertAdjacentHTML('beforeend', createRow(newResource));
+        });
 }
 
-function canceledit(target){
+function canceledit(target) {
     var parent = target.parentNode.parentNode.parentNode.parentNode;
     $(parent).children().show();
     var toDelete = target.parentNode.parentNode.parentNode;
@@ -104,10 +104,10 @@ function canceledit(target){
 }
 
 
-function deletePath(path, isDelete){
+function deletePath(path, toTrash) {
     var formData = new FormData();
     formData.append('toDelete', path);
-    formData.append('isDelete', isDelete);
+    formData.append('toTrash', toTrash);
     return fetch('server/crud.php', {
         method: 'POST',
         body: formData
@@ -115,33 +115,33 @@ function deletePath(path, isDelete){
 }
 
 
-function updateEditSidebar(res){
+function updateEditSidebar(res) {
     var li = QS(`li[data-path="${res.oldPath}"]`);
-    if(li !== null){
+    if (li !== null) {
         var icon;
         res.bulkRes.ext == null ? icon = 'dir' : icon = res.bulkRes.ext;
-        li.innerHTML = icons[icon]+' '+res.bulkRes.name;
+        li.innerHTML = icons[icon] + ' ' + res.bulkRes.name;
         li.dataset.path = res.bulkRes.path;
-    }   
+    }
 }
 
 
-function updateEdittable(res, row){
+function updateEdittable(res, row) {
     var tr = QS(`tr[data-path="${res.oldPath}"]`);
     cleanChilds(tr);
     tr.insertAdjacentHTML('beforeend', row);
     tr.setAttribute('data-path', res.bulkRes.path)
 }
 
-function cleanChilds(e){
-    var child = e.lastElementChild; 
-    while(child){
-        e.removeChild(child); 
-        child = e.lastElementChild; 
+function cleanChilds(e) {
+    var child = e.lastElementChild;
+    while (child) {
+        e.removeChild(child);
+        child = e.lastElementChild;
     }
 }
 
-function displayEditInput(parent, path){
+function displayEditInput(parent, path) {
     parent.children().hide();
     var icon = icons['dir'];
     var name = $(parent).children()['1'].textContent;
@@ -166,22 +166,22 @@ function displayEditInput(parent, path){
     $(parent).append(input);
 }
 
-function updateItemsSideBar(arr, path){
+function updateItemsSideBar(arr, path) {
     path = path.split('/');
-    if(QS('.selected') == null && path.length == 2){
+    if (QS('.selected') == null && path.length == 2) {
         QS('.list-sidebar-item').insertAdjacentHTML('beforeend', createResourceUl(arr));
-    } else if(QS('.selected') !== null && QS('.selected').children.length > 1){
-        QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(arr));                  
-    }else if(path[1] == "Trash" && $('li[data-path="root/Trash"]')[0].children[1] !== undefined){
+    } else if (QS('.selected') !== null && QS('.selected').children.length > 1) {
+        QS('.selected ul').insertAdjacentHTML('beforeend', createResourceUl(arr));
+    } else if (path[1] == "Trash" && $('li[data-path="root/Trash"]')[0].children[1] !== undefined) {
         $('li[data-path="root/Trash"]')[0].children[1].insertAdjacentHTML('beforeend', createResourceUl(arr))
     }
 }
 
-function displayFoldernTable(folder){
+function displayFoldernTable(folder) {
     QS('tbody').insertAdjacentHTML('beforeend', createRow(folder));
 }
 
-function createFolder(form){
+function createFolder(form) {
     var formData = new FormData(form);
     //formData.append('name', name);
     return fetch('server/create.php', {
@@ -190,7 +190,7 @@ function createFolder(form){
     }).then(res => res.json());
 }
 
-function edit(edit){
+function edit(edit) {
     var formData = new FormData(edit);
     return fetch('server/crud.php', {
         method: 'POST',
@@ -198,7 +198,7 @@ function edit(edit){
     }).then(res => res.json());
 }
 
-function displayFolderInput(path, type){
+function displayFolderInput(path, type) {
     var icon = icons[type.toLowerCase()]
     var row = `
     <tr data-path="${path}">
@@ -222,7 +222,7 @@ function displayFolderInput(path, type){
     $('#tableBody').append(row);
 }
 
-function deleteRow(element){
+function deleteRow(element) {
     $(element).remove();
 }
 
