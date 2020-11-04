@@ -1,3 +1,6 @@
+/*=====================================
+======= Drop and drag item state
+=====================================*/
 var dragItem = {
     path: '',
     tagName: ''
@@ -7,10 +10,14 @@ var dropItem = {
     tagName: ''
 };
 
+/*=====================================
+======= Listeners on body
+=====================================*/
 $('body, #dir-display-container').on('drop', dropHandler);
 $('body').on('dragstart', dragStartHandler);
 $('body').on('dragenter dragover dragleave', dragEventHandler);
 
+//update drag item when drag starts
 function dragStartHandler(e) {
     if (e.target.draggable) {
         dragItem.path = e.target.dataset.path;
@@ -18,12 +25,14 @@ function dragStartHandler(e) {
     }
 }
 
+//update when a dragged item enter, goes over and exits from a droppable item
 function dragEventHandler(e) {
     e.stopPropagation();
     e.preventDefault();
-    if (e.type === 'dragenter'){
-    
-        if(e.target.id === 'dir-display-container') {
+    //if event is enter kind update drop item
+    if (e.type === 'dragenter') {
+
+        if (e.target.id === 'dir-display-container') {
             dropItem.path = state.currentPath;
             dropItem.tagName = 'TR';
             return;
@@ -31,17 +40,22 @@ function dragEventHandler(e) {
 
         var targetParent = e.target.closest('tr') ? e.target.closest('tr') : e.target;
         dropItem.path = targetParent.dataset.path;
-        dropItem.tagName = targetParent.tagName;    
+        dropItem.tagName = targetParent.tagName;
     }
 }
 
+//on drop listener
 function dropHandler(e) {
     e.stopPropagation();
     e.preventDefault();
+
+    //get the data when dropped
     var dataTransfer = e.dataTransfer || (e.originalEvent && e.originalEvent.dataTransfer);
 
+    //in case it does not exits means is a resource movement not file upload
     if (dataTransfer.types.length === 0) {
-
+        //format info to php to fit in crud.php functions
+        //based on state items
         var formData = new FormData();
 
         var dragItemName = dragItem.path.split('/').pop();
@@ -52,13 +66,15 @@ function dropHandler(e) {
         formData.append('newPath', newPath);
         formData.append('newName', dragItemName);
 
+        //fetch and use edit function
         fetch('server/crud.php', {
             method: 'POST',
             body: formData
         }).then(res => res.text()).then(text => {
-
+            //depending on case diferent display changes
+            //TODO: Fix buggy behaviour in both logics
             if (dropItem.tagName === dragItem.tagName) {
-                handleEqualTags();  
+                handleEqualTags();
                 return;
             }
 
@@ -71,15 +87,20 @@ function dropHandler(e) {
     //In case it is a file coming from the Operative System
     dataTransfer.effectAllowed = 'move';
     var file = dataTransfer.files[0];
+    //use same function declared in crud.js
     handleFileUpload(file);
 }
 
-function handleEqualTags(){
+
+/*=====================================
+======= Functions to handle displays
+=====================================*/
+function handleEqualTags() {
     if (dropItem.tagName === 'LI') {
 
-        var dirsToUpdate = [dropItem.path.split('/').slice(0, -1).join('/') , dragItem.path.split('/').slice(0, -1).join('/')];
-        if(dirsToUpdate[0] === dirsToUpdate[1]){ 
-           updateAsideDir(oneLevelUpPath(dragItem.path));
+        var dirsToUpdate = [dropItem.path.split('/').slice(0, -1).join('/'), dragItem.path.split('/').slice(0, -1).join('/')];
+        if (dirsToUpdate[0] === dirsToUpdate[1]) {
+            updateAsideDir(oneLevelUpPath(dragItem.path));
             return;
         }
         updateAsideDir(oneLevelUpPath(dragItem.path));
@@ -88,14 +109,14 @@ function handleEqualTags(){
     }
 
     var pathToUpdateDisplay = oneLevelUpPath(dropItem.path);
-    fetchDirList(pathToUpdateDisplay).then(resourceList => 
+    fetchDirList(pathToUpdateDisplay).then(resourceList =>
         displayTable(resourceList)
     );
-   }
+}
 
-function handleNotEqualTags(){
+function handleNotEqualTags() {
 
-    if(dropItem.tagName == 'TR'){
+    if (dropItem.tagName == 'TR') {
         var pathToUpdateDisplay = state.currentPath;
         var pathToUpdateAside = oneLevelUpPath(dragItem.path);
     } else {
@@ -103,21 +124,22 @@ function handleNotEqualTags(){
         var pathToUpdateAside = oneLevelUpPath(dropItem.path);
     }
 
-    fetchDirList(pathToUpdateDisplay).then(resourceList => 
+    fetchDirList(pathToUpdateDisplay).then(resourceList =>
         displayTable(resourceList)
     );
     updateAsideDir(pathToUpdateAside);
 }
 
-function oneLevelUpPath(path){
+function oneLevelUpPath(path) {
     return path.split('/').slice(0, -1).join('/');
 }
 
-function updateAsideDir(itemPath){
+//similar as index.js updateAside but with two variables 
+function updateAsideDir(itemPath) {
     fetchDirList(itemPath).then(resourceList => {
         var targetLi = QS('li[data-path="' + itemPath + '"]');
         var lastChild = targetLi.lastElementChild;
-        if(lastChild.tagName == 'UL') targetLi.removeChild(lastChild);
+        if (lastChild.tagName == 'UL') targetLi.removeChild(lastChild);
         targetLi.insertAdjacentHTML('beforeend', createResourceUl(resourceList));
     });
 }

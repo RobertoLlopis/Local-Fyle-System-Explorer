@@ -1,7 +1,9 @@
 <?php
 
-function gatherResourceData($resource_name, $path){
-    
+// takes a path and gather info from resouce in array sent back
+function gatherResourceData($resource_name, $path)
+{
+
     $new_path = $path . '/' .  $resource_name;
     $type = filetype($new_path);
     $creation = filectime($new_path);
@@ -26,7 +28,7 @@ function gatherResourceData($resource_name, $path){
         'ext' => $ext
     ];
 }
-
+//recursive size scrapper of a folder
 function get_folder_size($folder)
 {
     $total_size = 0;
@@ -37,6 +39,7 @@ function get_folder_size($folder)
     }
     return format_folder_size($total_size);
 }
+// formatting bytes to human friendly notation
 function format_folder_size($size)
 {
     if ($size > 1073741824) return number_format($size / 1073741824, 2) . 'GB';

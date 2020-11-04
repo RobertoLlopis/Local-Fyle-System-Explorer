@@ -1,30 +1,46 @@
+/*=====================================
+======== App state and init
+=====================================*/
+
 var state = {
+    // current navigation directory printed
     currentPath: 'root',
-    availableExtensions: { audio: ['mp3'], video: ['mp4'], image: ['jpg', 'png', 'svg'] }
+    //available extention to display
+    availableExtensions: { audio: ['mp3'], video: ['mp4'], image: ['jpg', 'png', 'svg'] },
+    //last resources gather from php in current path
+    lastResources: {}
 };
-
-$('#properties-display-container').hide();
-
-//fetchDebug('root').then(response=> console.log(response));
 
 initAnimation();
 
 initialize();
 
 function initialize() {
+
+    //fetch info from files and folders of root (resource list)
     fetchDirList(state.currentPath).then((resourceList) => {
 
         state.lastResources = resourceList;
 
         updateMainDisplay(state.currentPath, resourceList);
+
+        //create first ul with root files and folder
         QS('#root-li').insertAdjacentHTML('beforeend', createResourceUl(resourceList));
+
         putTrashIcon();
     });
 }
 
-$('ul.sidebar').click(function (e) {
 
+/*=====================================
+============= Listeners
+=====================================*/
+
+// Handle click and double click in aside bar directories display
+$('ul.sidebar').click(function (e) {
     var $this = $(this);
+
+    //if has class clicked before 500ms triggers double click hanlder
     if ($this.hasClass('clicked')) {
 
         $this.removeClass('clicked');
@@ -33,6 +49,8 @@ $('ul.sidebar').click(function (e) {
 
     } else {
         $this.addClass('clicked');
+
+        //If not handle one click
         setTimeout(function () {
             if ($this.hasClass('clicked')) {
 
@@ -44,23 +62,37 @@ $('ul.sidebar').click(function (e) {
     }
 });
 
+// Handle double click on tr´s in directory main display
 $('#dataTable').on('dblclick', handleTableDblClick);
+//Handle close modals
 $('.preview-modal').click(handleModalClick);
+// Handle close csv display
 $('#go-back-csv').click(goBackFromCsv);
 
+
+
+/*=====================================
+========== Listeners handlers
+=====================================*/
+
 function handleTableDblClick(e) {
+    //if target is a tr with data-path
     if (e.target.closest('tr[data-path]')) {
 
         var tr = e.target.closest('tr[data-path]');
         var path = tr.dataset.path;
         //console.log(path);
+        //check if it is a file
         if (path.split('/').pop().includes('.')) {
+            //check if the file is csv
             if (path.split('.').pop() === 'csv') {
                 displayCsv(path);
                 return;
             }
+            //if not display preview of path
             showModal(path);
         } else {
+            //If it is a folder navigate to it
             fetchDirList(path).then((resourceList) => {
 
                 state.lastResources = resourceList;
@@ -70,14 +102,14 @@ function handleTableDblClick(e) {
                 updateSelectedStyle(e);
             });
         }
-
     }
 }
 
 function handleAsideClick(e) {
+    //if it is a directory
     if (e.target.dataset.type === 'dir') {
         var path = e.target.dataset.path;
-        console.log(path);
+        //navigate to li´s data-path
         fetchDirList(path).then((resourceList) => {
 
             state.lastResources = resourceList;
@@ -90,6 +122,7 @@ function handleAsideClick(e) {
     }
 }
 function handleAsideDblClick(e) {
+    //if double click to a dir LI
     if (e.target.dataset.type === 'dir') {
 
         var path = e.target.dataset.path;
@@ -100,14 +133,21 @@ function handleAsideDblClick(e) {
                 state.lastResources = resourceList;
                 state.currentPath = path;
 
+                //show or hide sub-level
                 updateAside(e, resourceList);
+                //navigate to LI´s path
                 updateMainDisplay(path, resourceList);
                 updateSelectedStyle(e);
             })
     }
 }
 
+/*=====================================
+======= DOM updaters and creators
+=====================================*/
+
 function updateAside(e, resourceList) {
+    //if lastChild --> sub-level exist --> remove it
     var lastChild = e.target.lastElementChild;
     if (lastChild == null) {
         return;
@@ -117,6 +157,7 @@ function updateAside(e, resourceList) {
         return;
     };
 
+    //if not, create ul of folder
     e.target.insertAdjacentHTML('beforeend', createResourceUl(resourceList));
 }
 
@@ -212,20 +253,16 @@ function closeModal() {
     stopAll();
 }
 
-function fetchDirList(path) {
-    var formData = new FormData();
-    formData.append('path', path);
-    return fetch('server/navigation.php', {
-        method: 'POST',
-        body: formData
-    }).then(res => res.text()).then(text => JSON.parse(text));
-}
+
 
 function createRow(resource) {
+    //icon depend on resource´s extension(just 3 char)
     var iconClass = '';
     resource.type === 'dir' ? iconClass = 'dir' : iconClass = resource.ext.slice(0, 3);
-    //console.log(resource);
+
+    //Avoid meta folders
     if (resource.name === '.' || resource.name === "..") return '';
+
     var display = '';
     if (resource.path == 'root/Trash') {
         iconClass = 'trash';
@@ -235,7 +272,7 @@ function createRow(resource) {
     if (resource.name === resource.ext) {
         iconClass = 'folder';
     }
-
+    // fill row with resource info
     return `
     <tr draggable="true" data-path="${resource.path}">
         <td><i class="table-icon">  ${icons[iconClass]}</i></td>
@@ -293,13 +330,11 @@ function createResourceLi(resource) {
 
     return `<li draggable="true" class="menu-system-item" data-type="${resource.type}"data-path="${resource.path}"> ${icon} ${resource.name} </li>`
 }
+
 function displayErrorMsg(errorString) {
     QS('#error-message').textContent = errorString;
     QS('#error-card').classList.add('pop-up');
     setTimeout(() => QS('#error-card').classList.remove('pop-up'), 2000);
-}
-function QS(selector) {
-    return document.querySelector(selector);
 }
 
 function hideMenu(parent, element) {
@@ -312,33 +347,6 @@ function initAnimation() {
     setTimeout(() => { QS('#logo-container').classList.add('final-logo-heigth') }, 500);
 }
 
-function convertTimeStampToDate(stamp) {
-    var date = new Date(stamp * 1000);
-    var day = date.getDate();
-    var month = (date.getMonth() + 1).toString().slice(-2);
-    var year = date.getFullYear();
-    var formattedTime = day + '/' + month + '/' + year;
-    return formattedTime;
-}
-
-function fetchDebug(path) {
-    var formData = new FormData();
-    formData.append('path', path);
-    return fetch('server/navigation.php', {
-        method: 'POST',
-        body: formData
-    }).then(res => res.text()).then(text => text);
-}
-function stopAll() {
-    var media = document.getElementsByClassName('media'),
-        i = media.length;
-
-    while (i--) {
-        media[i].pause();
-    }
-}
-
-
 function putTrashIcon() {
     var trash = $(`li[data-path="root/Trash"]`);
     $(trash).text('');
@@ -348,6 +356,7 @@ function putTrashIcon() {
 }
 
 function displayCsv(path) {
+    // send path to display_csv.php
     var formData = new FormData();
     formData.append('path', path);
     fetch('server/display_csv.php', {
@@ -358,6 +367,7 @@ function displayCsv(path) {
         .then(data => {
             var csvArray = JSON.parse(data);
             buildTable(csvArray);
+            // update display
             $('#directory-table-container').fadeOut();
             $('#add-new-button-container .dropdown-toggle').hide();
             $('#csv-table-container, #go-back-csv').fadeIn();
@@ -365,6 +375,8 @@ function displayCsv(path) {
 }
 
 function buildTable(csvArray) {
+    //get JSON obj from csv file
+    //format it
     var html;
     csvArray.forEach((row, i) => {
         if (i == 0) {
@@ -398,6 +410,57 @@ function goBackFromCsv() {
     $('#csv-table').empty();
     $('#csv-table-container').fadeOut();
     $('#go-back-csv').hide();
+
     $('#directory-table-container, #add-new-button-container .dropdown-toggle').fadeIn();
 
+}
+
+
+/*=====================================
+======== functions and helpers
+=====================================*/
+
+function fetchDirList(path) {
+    //declare $_POST['path]
+    var formData = new FormData();
+    formData.append('path', path);
+    //fetch navigation.php --> final response = resourceList(Array with directory resources) 
+    return fetch('server/navigation.php', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.text()).then(text => JSON.parse(text));
+}
+
+function QS(selector) {
+    return document.querySelector(selector);
+}
+
+function convertTimeStampToDate(stamp) {
+    var date = new Date(stamp * 1000);
+    var day = date.getDate();
+    var month = (date.getMonth() + 1).toString().slice(-2);
+    var year = date.getFullYear();
+    var formattedTime = day + '/' + month + '/' + year;
+    return formattedTime;
+}
+
+
+function stopAll() {
+    var media = document.getElementsByClassName('media'),
+        i = media.length;
+
+    while (i--) {
+        media[i].pause();
+    }
+}
+
+// * Available fetch directory resources function to use depending on path 
+//fetchDebug('root').then(response=> console.log(response));
+function fetchDebug(path) {
+    var formData = new FormData();
+    formData.append('path', path);
+    return fetch('server/navigation.php', {
+        method: 'POST',
+        body: formData
+    }).then(res => res.text()).then(text => text);
 }
