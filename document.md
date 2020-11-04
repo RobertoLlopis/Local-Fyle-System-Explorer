@@ -18,7 +18,7 @@ With the basic wireframe created we then made a use case diagram to make it more
 
 The git strategy we used in this project was first creating a master branch and a production branch, then for every feature we created a different branch. Once the feature was working we would merge this branch with the production branch. We kept repeating this process untill the first version of the project was completed, then we made a merge between the production branch and the master branch.  
 
-![](client/assets/gitStrategy.png)  
+![](client/assets/git.png)  
 
 # Code  
 
