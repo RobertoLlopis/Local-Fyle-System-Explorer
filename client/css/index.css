@@ -192,6 +192,9 @@ div.dropdown-item {
   display: none;
 }
 
+#go-back-csv{
+  display: none;
+}
 
 .slide-out-top {
   -webkit-animation: slide-out-top 0.8s;

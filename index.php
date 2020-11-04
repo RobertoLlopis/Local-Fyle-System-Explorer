@@ -98,6 +98,9 @@
                                 <a class="dropdown-item file-create" href="#"><i class="far fa-file"></i>&nbsp;&nbsp;New File</a>
                                 <input id type="file" style="display:none">
                             </div>
+                            <button id="go-back-csv" type="button" class="btn btn-primary">
+                                Go Back <i class="fas fa-long-arrow-alt-left"></i>
+                            </button>
                         </div>
                     </div>
                     <div class="card">

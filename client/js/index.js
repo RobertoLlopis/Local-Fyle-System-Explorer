@@ -46,7 +46,7 @@ $('ul.sidebar').click(function (e) {
 
 $('#dataTable').on('dblclick', handleTableDblClick);
 $('.preview-modal').click(handleModalClick);
-
+$('#go-back-csv').click(goBackFromCsv);
 
 function handleTableDblClick(e){
     if(e.target.closest('tr[data-path]')){
@@ -342,7 +342,8 @@ function displayCsv(path){
             var csvArray = JSON.parse(data);
             buildTable(csvArray);
             $('#directory-table-container').fadeOut();
-            $('#csv-table-container').fadeIn();
+            $('#add-new-button-container .dropdown-toggle').hide();
+            $('#csv-table-container, #go-back-csv').fadeIn();
         });
 }
 
@@ -374,6 +375,11 @@ function buildTable(csvArray){
     $('#csv-table').append(html);
 }
 
-function injectInCsvTable(html){
-    QS('#csv-table').insertAdjacentHTML('beforeend', html);
+function goBackFromCsv(){
+    updateMainDisplay(state.currentPath, state.lastResources);
+
+    $('#csv-table-container').fadeOut();
+    $('#go-back-csv').hide();
+    $('#directory-table-container, #add-new-button-container .dropdown-toggle').fadeIn();
+    
 }
