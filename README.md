@@ -32,13 +32,14 @@ _Start Apache field in XAMPP_
 
 ## What it is this about ?
 
-_This project is a role play as Coverfy developers. We were asked to build from scratch a local file system app._
+This project is a role play as Coverfy developers. We were asked to build from scratch a local file system app.
 
-_You are able to start using our file system. Create, preview, modify and move around your data among others._
+You are able to start using our file system. Create, preview, modify and move around your data among others.
 
-_Open your favorite I.D.E. and play around. There are tons of improvements to be done_
+Open your favorite I.D.E. and play around. There are tons of improvements to be done.
+<br/>
 
-_In [document.md](document.md) you can go deeper in details about how much we learnt and how did we organize_
+In [document.md](document.md) you can go deeper in details about how much we learnt and how did we organize
 
 <br/>
 
@@ -48,7 +49,7 @@ _In [document.md](document.md) you can go deeper in details about how much we le
 
 ## Built with: 🛠️
 
-_Was used several languajes and technologies besides "HTML" and "CSS"_
+_Was used several languajes and technologies besides "HTML", "CSS" and "JavaScript"._
 
 - [PHP](https://www.php.net/) - Back End language in charge of server environment
 - [XAMPP](https://www.apachefriends.org/es/index.html) - Server and session handler
@@ -66,7 +67,7 @@ _Was used several languajes and technologies besides "HTML" and "CSS"_
 _Any doubt or question do not hesitate in contact me:_
 
 - **Roberto Llopis** - [_Git Hub_](https://github.com/RobertoLlopis) - [LinkedIn](https://www.linkedin.com/in/robertollopis/)
-- **Henrique Conde** - [_Git Hub_](https://github.com/RobertoLlopis) - [LinkedIn](https://www.linkedin.com/in/robertollopis/)
+- **Henrique Conde** - [LinkedIn](https://www.linkedin.com/in/henrique-pe%C3%B1a-conde-67137b171/)
 
 <br/>
 
