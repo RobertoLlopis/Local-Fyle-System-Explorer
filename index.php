@@ -23,6 +23,8 @@
 </head>
 
 <body id="page-top">
+
+    <!-- Modal preview files-->
     <div class="preview-modal p-5">
         <div class="preview-close-button">
             <button class="btn btn-circle btn-ligth"><i class="fas fa-times-circle"></i></button>
@@ -39,6 +41,7 @@
             </div>
         </div>
     </div>
+
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Aside container -->
@@ -80,24 +83,14 @@
             <!-- End of Topbar -->
             <!-- Begin Main Content -->
             <main class="container-fluid d-flex p-0 h-100 main-container">
-                <div class="properties-view hide-properties">
-                    <i class="fas fa-times-circle close-btn mb-4"></i>
-                    <div class="properties-content">
 
-                    </div>
-                </div>
                 <div id="dir-display-container" class="h-100 p-0">
+                    <!-- Breadcrumbs and action button container-->
                     <div class="col-12 p-0 d-flex align-items-center">
                         <div id="breadcrumbs-container" class="col-9 d-flex py-4 pl-4 pr-0">
 
                         </div>
                         <div id="add-new-button-container" class="col-3 p-0 d-flex justify-content-center">
-                            <div class="clean-trash hidden" data-path="root/Trash">
-                                <button class="btn btn-primary btn-clear-trash">
-                                    <i class="fas fa-trash-alt"></i>
-                                    Clean Trash
-                                </button>
-                            </div>
                             <button class="btn btn-primary dropdown-toggle btn-add-new" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-plus"></i> Add new
                             </button>
@@ -110,11 +103,19 @@
                                 <a class="dropdown-item file-create" href="#"><i class="far fa-file"></i>&nbsp;&nbsp;New File</a>
                                 <input id type="file" style="display:none">
                             </div>
+                            <div class="clean-trash hidden" data-path="root/Trash">
+                                <button class="btn btn-primary btn-clear-trash">
+                                    <i class="fas fa-trash-alt"></i>
+                                    Clean Trash
+                                </button>
+                            </div>
                             <button id="go-back-csv" type="button" class="btn btn-primary">
                                 Go Back <i class="fas fa-long-arrow-alt-left"></i>
                             </button>
                         </div>
+
                     </div>
+                    <!-- Main display container -->
                     <div class="card">
                         <div class="card-body">
                             <div id="directory-table-container" class="table-responsive">
@@ -142,12 +143,18 @@
                         </div>
                     </div>
                 </div>
-                <div id="properties-display-container" class="bg-dark h-100 p-0">
+                <!-- Info properties display aside section-->
+                <div class="properties-view hide-properties">
+                    <i class="fas fa-times-circle close-btn mb-4"></i>
+                    <div class="properties-content">
+
+                    </div>
                 </div>
             </main>
         </div>
     </div>
     <!-- End of Page Wrapper -->
+    <!-- Error message -->
     <div id="error-card" class="card border-left-error shadow w-75">
         <div class="card-body">
             <div class="row no-gutters align-items-center">
@@ -162,9 +169,10 @@
     </div>
 
 
-
+    <!-- JQuery-->
     <script src="client/vendor/jquery/jquery.min.js"></script>
     <script src="client/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- App JavaScript-->
     <script src="client/js/icons.js"></script>
     <script src="client/js/index.js"></script>
     <script src="client/js/search.js"></script>
